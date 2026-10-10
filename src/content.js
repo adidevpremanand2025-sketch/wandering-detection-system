@@ -5,23 +5,20 @@ export const site = {
   shortTitle: 'Wandering Detection',
   tagline:
     'A small, affordable wearable that learns how your loved one normally moves, and tells you early when something feels off.',
+  heroLine: 'Helping families notice early when someone with dementia may wander.',
   quiet: 'So a walk never has to end in worry.',
   college: 'VIT Chennai',
   year: '2025–26',
 }
 
+// Grouped for scanning: `ids` are the page sections each item covers (the first one is the link target).
 export const nav = [
-  { id: 'problem', label: 'Why' },
-  { id: 'numbers', label: 'Numbers' },
-  { id: 'literature', label: 'Research' },
-  { id: 'challenges', label: 'Gaps' },
-  { id: 'objectives', label: 'Goals' },
-  { id: 'architecture', label: 'How it works' },
-  { id: 'methodology', label: 'Steps' },
-  { id: 'hardware', label: 'Parts' },
-  { id: 'roadmap', label: 'Roadmap' },
-  { id: 'involve', label: 'Get involved' },
-  { id: 'team', label: 'Team' },
+  { label: 'Why', ids: ['problem', 'walk'] },
+  { label: 'Our story', ids: ['story'] },
+  { label: 'The evidence', ids: ['numbers', 'literature', 'challenges'] },
+  { label: 'How it works', ids: ['objectives', 'architecture', 'methodology', 'hardware', 'roadmap'] },
+  { label: 'Team', ids: ['team', 'ethics'] },
+  { label: 'Get involved', ids: ['involve'], cta: true },
 ]
 
 export const team = [
@@ -30,6 +27,10 @@ export const team = [
   { name: 'Tharun Anand', reg: '25BAI1432' },
 ]
 
+export const walk = {
+  heading: 'Watch one walk, and the moment it is noticed.',
+}
+
 export const problem = {
   heading: ['It only takes a few minutes for someone to be ', 'gone', '.'],
   points: [
@@ -37,8 +38,21 @@ export const problem = {
     { title: 'Real danger', body: 'Getting lost can mean injury, traffic, or a cold night outside.' },
     { title: 'No one can watch 24/7', body: 'Families need rest. Today’s tools speak up only after the person has already left.' },
   ],
+  urgent: 'If someone is missing right now, call your local emergency number first.',
   solution:
     'We are building a gentle wearable that learns what a normal day looks like for one person, notices when it changes, and tells the family early.',
+}
+
+// Draft in the team's voice, grounded in the project brief. Edit freely; keep it plain and honest.
+export const story = {
+  heading: ['Why three students ', 'started this', '.'],
+  lede: 'We are three students at VIT Chennai. We are not doctors, and this is not a finished product.',
+  body: [
+    'We started because the problem is real, and the tools that exist today speak up too late. We wanted to see how far careful, affordable engineering could go.',
+    'This is a college project, and it will be assessed like one. But we did not want it to be only that. Families are living this today, and we would like the work to be useful to them.',
+  ],
+  quoteLabel: 'What we believe',
+  quote: 'Even as students, we can notice a real problem and decide to do something about it.',
 }
 
 export const literature = {
@@ -94,6 +108,7 @@ export const objectives = {
 // Pipeline nodes. kind: 'process' | 'decision' | 'end'
 export const architecture = {
   heading: ['From a tiny sensor to a ', 'clear message', '.'],
+  short: 'In short: a small wearable senses movement, learns what is normal for one person, and alerts the family early when something differs.',
   hint: 'Tap any step for a quick explanation.',
   nodes: [
     { id: 'wearable', title: 'Wearable Device', sub: 'ESP32 + Accelerometer + GPS', tip: 'Worn comfortably, it senses movement and position.' },
@@ -125,9 +140,9 @@ export const methodology = {
 export const hardware = {
   heading: ['Small, simple, ', 'affordable', '.'],
   items: [
-    { name: 'ESP32', kind: 'Microcontroller', role: 'The brain. Reads the sensors and sends data on.', image: '/images/esp32.jpg' },
-    { name: 'MPU-6050', kind: '3-axis accelerometer + gyroscope', role: 'Feels how they move and turn.', image: '/images/mpu6050.jpg' },
-    { name: 'GPS module', kind: 'e.g. NEO-6M', role: 'Knows where they are outdoors.', image: '/images/gps.jpg' },
+    { name: 'ESP32', kind: 'Microcontroller', role: 'The brain. Reads the sensors and sends data on.', image: null /* add public/images/esp32.jpg then set '/images/esp32.jpg' */ },
+    { name: 'MPU-6050', kind: '3-axis accelerometer + gyroscope', role: 'Feels how they move and turn.', image: null /* add public/images/mpu6050.jpg then set '/images/mpu6050.jpg' */ },
+    { name: 'GPS module', kind: 'e.g. NEO-6M', role: 'Knows where they are outdoors.', image: null /* add public/images/gps.jpg then set '/images/gps.jpg' */ },
   ],
 }
 
@@ -145,7 +160,7 @@ export const teamSection = {
   heading: ['The people ', 'behind it', '.'],
 }
 
-// Contact details are placeholders: replace before sharing the site.
+// Contact details: email confirmed by the team.
 export const involve = {
   headingParts: ['If someone you love ', 'wanders', ', help us notice ', 'sooner', '.'],
   lede: 'We are students building this for families like yours, and we cannot get it right alone.',
@@ -186,8 +201,7 @@ export const numbers = {
 
 export const ethics = {
   heading: 'About this project: ethics and privacy',
-  intro:
-    'This is a student project by Karan Jonah (25BAI1716), Adidev Premanand (25BAI1720) and Tharun Anand (25BAI1432) at VIT Chennai. It is a prototype, not a medical device. It has not been clinically tested and must not be used as a substitute for professional care or supervision.',
+  summary: 'We collect location and movement data from a prototype. No real patient data is shown on this site.',
   items: [
     {
       lead: 'What it collects:',
@@ -196,7 +210,7 @@ export const ethics = {
     {
       lead: 'Where it is stored and who sees it:',
       // TODO: confirm with team where data is stored and who has access (shown on screen as plain text until confirmed)
-      text: ' [TODO: confirm with team where data is stored and who has access]. Test data is shared only within the project team and our faculty reviewers. We do not sell or share data with third parties.',
+      text: ' Test data is shared only within the project team and our faculty reviewers. We do not sell or share data with third parties.',
     },
     {
       lead: 'Consent:',

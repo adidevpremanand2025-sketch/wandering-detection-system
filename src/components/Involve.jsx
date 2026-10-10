@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { involve } from '../content.js'
+import Button from './Button.jsx'
+import Grandpa from './Grandpa.jsx'
 
 function CopyEmail() {
   const [state, setState] = useState('idle')
@@ -13,21 +15,18 @@ function CopyEmail() {
     setTimeout(() => setState('idle'), 2500)
   }
   return (
-    <button
-      type="button"
-      onClick={copy}
-      className="border-2 border-paper px-4 py-2 font-semibold transition-colors hover:bg-paper hover:text-teal focus-visible:outline-paper"
-    >
+    <Button variant="outline" tone="onTrust" onClick={copy}>
       <span aria-live="polite">{state === 'copied' ? 'Copied' : state === 'failed' ? 'Copy failed. Select the address instead.' : 'Copy email'}</span>
-    </button>
+    </Button>
   )
 }
 
 export default function Involve() {
   return (
-    <section id="involve" aria-labelledby="involve-h" className="bg-teal text-paper">
-      <div className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
-        <h2 id="involve-h" className="max-w-3xl font-serif text-4xl font-medium leading-[1.1] md:text-6xl">
+    <section id="involve" aria-labelledby="involve-h" className="bg-trust text-on-trust">
+      <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-12">
+        <div className="lg:col-span-8">
+        <h2 id="involve-h" className="max-w-3xl text-4xl font-black leading-[1] tracking-[-0.03em] text-lime md:text-5xl">
           {involve.headingParts.join('')}
         </h2>
         <p className="mt-6 max-w-2xl font-serif text-2xl leading-snug">{involve.lede}</p>
@@ -35,7 +34,7 @@ export default function Involve() {
 
         <ul className="mt-12 grid gap-8 md:grid-cols-3">
           {involve.ways.map((w) => (
-            <li key={w.verb} className="border-t-2 border-paper pt-4">
+            <li key={w.verb} className="border-t-2 border-on-trust pt-4">
               <h3 className="font-serif text-2xl font-medium">{w.verb}</h3>
               <p className="mt-2">{w.body}</p>
             </li>
@@ -43,17 +42,16 @@ export default function Involve() {
         </ul>
 
         <div className="mt-12">
-          <a
-            href={`mailto:${involve.email}`}
-            className="inline-block bg-paper px-7 py-4 text-lg font-semibold text-teal hover:bg-soft focus-visible:outline-paper"
-          >
-            {involve.cta}
-          </a>
+          <Button href={`mailto:${involve.email}`} tone="onTrust" size="lg">{involve.cta}</Button>
           <p className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-3">
-            <a href={`mailto:${involve.email}`} className="break-all underline underline-offset-4 focus-visible:outline-paper">{involve.email}</a>
+            <a href={`mailto:${involve.email}`} className="inline-block break-all py-2 underline underline-offset-4 focus-visible:outline-on-trust">{involve.email}</a>
             <CopyEmail />
           </p>
           <p className="mt-1 max-w-md">{involve.note}</p>
+        </div>
+        </div>
+        <div className="hidden justify-self-center lg:col-span-4 lg:block">
+          <Grandpa className="aspect-square w-64" title="A cartoon grandfather with glasses and a big smile, waving" />
         </div>
       </div>
     </section>
