@@ -35,7 +35,16 @@ export default function Numbers() {
   return (
     <Section id="numbers" heading={numbers.heading} tone="soft">
       <figure className="max-w-4xl">
-        <SixInTen />
+        {/* the one figure the whole page turns on, at the size it deserves; the sentence below carries it for screen readers */}
+        {/* set in the sign face: Atkinson's slashed zero would read as a "no" symbol at this size */}
+        <p
+          aria-hidden="true"
+          className="text-[clamp(5.5rem,17vw,12rem)] leading-[0.85] tracking-[-0.04em] text-stray"
+          style={{ fontFamily: 'var(--font-sign)', fontWeight: 800 }}
+        >
+          6 in 10
+        </p>
+        <div className="mt-6"><SixInTen /></div>
         <p className="text-3xl font-bold leading-tight tracking-[-0.015em] md:text-4xl md:leading-[1.12]">{lead.text}</p>
       </figure>
       <dl className="mt-14 grid gap-x-12 gap-y-10 md:grid-cols-2">

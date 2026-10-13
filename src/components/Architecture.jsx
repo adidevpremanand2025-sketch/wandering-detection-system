@@ -45,7 +45,7 @@ export default function Architecture() {
   const keep = byId.continue
 
   return (
-    <Section id="architecture" heading={architecture.heading}>
+    <Section id="architecture" heading={architecture.heading} tone="soft">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,40rem)] lg:gap-14">
         <div>
           <div className="lg:sticky lg:top-28">
@@ -90,7 +90,7 @@ export default function Architecture() {
           {!reduce && (
             <motion.span
               aria-hidden="true"
-              className="pointer-events-none absolute -left-[9px] z-10 h-[15px] w-[15px] -translate-y-1/2 rounded-full bg-route ring-4 ring-paper"
+              className="pointer-events-none absolute -left-[9px] z-10 h-[15px] w-[15px] -translate-y-1/2 rounded-full bg-route ring-4 ring-soft"
               style={{ top }}
             />
           )}
