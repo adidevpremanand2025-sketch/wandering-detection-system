@@ -11,7 +11,7 @@ import { TRAIL_X, TrailContext } from './ui.jsx'
  * Under reduced motion the whole route is shown at once.
  */
 const X = TRAIL_X
-const OUT = 120 // how far the stray swings out (the gutter is 140px wide)
+const OUT = 100 // how far the stray swings out; the ring (r16) must clear the text column at pl-40
 
 export default function Trail({ strayAt, homeAt, children }) {
   const wrap = useRef(null)
@@ -74,7 +74,7 @@ export default function Trail({ strayAt, homeAt, children }) {
                 <path d={after} stroke="var(--color-route)" />
                 <circle cx={OUT} cy={ring.y} r="16" stroke="var(--color-stray)" strokeWidth="3.5" fill="var(--color-paper)" />
                 <circle cx={OUT} cy={ring.y} r="5" fill="var(--color-stray)" stroke="none" />
-                <text x={OUT} y={ring.y - 28} textAnchor="middle" className="sign" fontSize="18" fill="var(--color-stray)" stroke="var(--color-paper)" strokeWidth="6" style={{ paintOrder: 'stroke' }}>
+                <text x={OUT - 26} y={ring.y + 6} textAnchor="end" className="sign" fontSize="18" fill="var(--color-stray)" stroke="var(--color-paper)" strokeWidth="6" style={{ paintOrder: 'stroke' }}>
                   Noticed
                 </text>
               </g>

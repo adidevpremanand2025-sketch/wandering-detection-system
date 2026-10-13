@@ -29,7 +29,7 @@ export function Section({ id, heading, children, className = '', tone = 'plain',
 }
 
 /** Content inset that leaves room for the trail gutter on wide screens (the trail and its detour live in it). */
-export const TRAIL_INSET = 'lg:pl-36'
+export const TRAIL_INSET = 'lg:pl-40'
 
 /** Where the trail runs, measured from the content box's left edge (matches Trail.jsx). */
 export const TRAIL_X = 40

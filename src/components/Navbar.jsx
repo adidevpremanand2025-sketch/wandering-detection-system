@@ -11,9 +11,10 @@ export default function Navbar() {
   // Watch every section a nav item covers, so a grouped item stays lit across all of them.
   useEffect(() => {
     // the hero (#top) is observed too, so nothing reads as "active" while it is on screen
-    const els = ['top', ...nav.flatMap((n) => n.ids)].map((id) => document.getElementById(id)).filter(Boolean)
+    // 'closing' is the orbit band before Get involved: nothing in the nav is "current" there either
+    const els = ['top', 'closing', ...nav.flatMap((n) => n.ids)].map((id) => document.getElementById(id)).filter(Boolean)
     const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id === 'top' ? '' : e.target.id)),
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id === 'top' || e.target.id === 'closing' ? '' : e.target.id)),
       { rootMargin: '-40% 0px -55% 0px' }
     )
     els.forEach((el) => io.observe(el))

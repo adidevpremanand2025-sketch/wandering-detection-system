@@ -7,14 +7,14 @@ export function Problem() {
       {/* the emergency line comes first: someone missing right now is the one true stray */}
       <p className="max-w-2xl border-l-4 border-stray py-1 pl-5 text-xl font-bold text-ink">{problem.urgent}</p>
       <p className="lede mt-10 max-w-2xl">{problem.solution}</p>
-      <dl className="mt-14 grid gap-10 md:grid-cols-3">
+      {/* the three reasons, as one plain sentence each instead of a three-column row */}
+      <ul className="mt-10 max-w-2xl space-y-3 text-xl">
         {problem.points.map((p) => (
-          <div key={p.title} className="border-t-2 border-ink pt-4">
-            <dt className="text-2xl font-bold">{p.title}</dt>
-            <dd className="mt-2 text-muted">{p.body}</dd>
-          </div>
+          <li key={p.title}>
+            <strong className="font-bold text-ink">{p.title}.</strong> {p.body}
+          </li>
         ))}
-      </dl>
+      </ul>
     </Section>
   )
 }
@@ -78,21 +78,7 @@ export function Literature() {
         ))}
       </ul>
       <p className="mt-6 max-w-2xl text-base text-muted">{literature.note}</p>
-    </Section>
-  )
-}
-
-export function Challenges() {
-  return (
-    <Section id="challenges" heading={challenges.heading}>
-      <ul className="max-w-4xl">
-        {challenges.items.map((c) => (
-          <li key={c.n} className="grid gap-x-10 gap-y-2 border-t border-rule py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
-            <h3 className="text-2xl font-bold">{c.title}</h3>
-            <p className="text-muted">{c.body}</p>
-          </li>
-        ))}
-      </ul>
+      {/* what the table adds up to (this used to be its own section) */}
       <PullQuote label={challenges.gapLabel}>{challenges.gap}</PullQuote>
     </Section>
   )
@@ -145,11 +131,26 @@ export function Team() {
       <ul className="max-w-3xl">
         {team.map((t) => (
           <li key={t.reg} className="flex flex-col justify-between gap-1 border-t border-rule py-5 sm:flex-row sm:items-baseline">
-            <p className="text-3xl font-bold tracking-[-0.01em]">{t.name}</p>
+            <div>
+              <p className="text-3xl font-bold tracking-[-0.01em]">{t.name}</p>
+              {/* shown only when the team adds a real role line in content.js */}
+              {t.role && <p className="mt-1 text-lg text-muted">{t.role}</p>}
+            </div>
             <p className="sign tabular-nums text-muted">{t.reg}</p>
           </li>
         ))}
       </ul>
+      {/* likewise: a named faculty guide and a repo link appear only once content.js has them */}
+      {(teamSection.guide || teamSection.repo) && (
+        <p className="mt-8 max-w-2xl text-lg">
+          {teamSection.guide && <>Guided by <span className="font-bold text-ink">{teamSection.guide}</span>. </>}
+          {teamSection.repo && (
+            <a href={teamSection.repo} className="font-bold underline underline-offset-4 hover:text-route" target="_blank" rel="noopener noreferrer">
+              Code and notes on GitHub
+            </a>
+          )}
+        </p>
+      )}
     </Section>
   )
 }

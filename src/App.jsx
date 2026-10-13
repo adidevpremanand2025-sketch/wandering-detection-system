@@ -8,7 +8,7 @@ import Architecture from './components/Architecture.jsx'
 import Interlude from './components/Interlude.jsx'
 import RoutineOrbit from './components/RoutineOrbit.jsx'
 import Learns from './components/Learns.jsx'
-import { Problem, Story, Literature, Challenges, Hardware, Roadmap, Team, Footer } from './components/Sections.jsx'
+import { Problem, Story, Literature, Hardware, Roadmap, Team, Footer } from './components/Sections.jsx'
 
 export default function App() {
   return (
@@ -19,18 +19,17 @@ export default function App() {
         <Hero />
         <Trail strayAt="stray" homeAt="involve">
           <Problem />
-          <Story />
           <Numbers />
           <Literature />
-          <Challenges />
           <Interlude id="stray">Everyone moves differently. Ours learns each person&rsquo;s own routine.</Interlude>
           <Learns />
           <Architecture />
           <Hardware />
           <Roadmap />
+          <Story />
           <Team />
           <About />
-          <Interlude tone="soft" visual={<RoutineOrbit />}>So a walk never has to end in worry.</Interlude>
+          <Interlude id="closing" tone="soft" visual={<RoutineOrbit />}>So a walk never has to end in worry.</Interlude>
           <Involve />
         </Trail>
       </main>

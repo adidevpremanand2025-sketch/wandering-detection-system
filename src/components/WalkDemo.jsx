@@ -7,8 +7,10 @@ import { GRANDPA_SRC } from './Grandpa.jsx'
 // point where the system notices, then returns home. Not real data.
 const USUAL = 'M130 400 C 60 340, 70 220, 170 180 S 360 120, 430 200 S 470 330, 380 380 S 200 450, 130 400 Z'
 const TO_LEAVE = 'M130 400 C 60 340, 70 220, 170 180 S 360 120, 430 200'
-const TO_FLAG = `${TO_LEAVE} C 470 230, 520 190, 500 110`
-const TODAY = `${TO_FLAG} C 560 220, 520 420, 300 470 S 170 430, 130 400`
+// The system notices just after the walk leaves the route (the first half of the excursion's first
+// curve), not at the far end of it. TODAY is unchanged; TO_FLAG is only the measuring path.
+const TO_FLAG = `${TO_LEAVE} C 450 215, 472.5 212.5, 487.5 196.25`
+const TODAY = `${TO_LEAVE} C 470 230, 520 190, 500 110 C 560 220, 520 420, 300 470 S 170 430, 130 400`
 
 // The clock under the walk runs 1:30 to 2:30 pm, to match the example alert.
 const START_MIN = 13 * 60 + 30

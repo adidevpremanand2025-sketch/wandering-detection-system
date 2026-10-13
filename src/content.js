@@ -15,9 +15,9 @@ export const site = {
 // Grouped for scanning: `ids` are the page sections each item covers (the first one is the link target).
 export const nav = [
   { label: 'Why', ids: ['problem'] },
-  { label: 'Our story', ids: ['story'] },
-  { label: 'The evidence', ids: ['numbers', 'literature', 'challenges'] },
+  { label: 'The evidence', ids: ['numbers', 'literature'] },
   { label: 'How it works', ids: ['learns', 'architecture', 'hardware', 'roadmap'] },
+  { label: 'Our story', ids: ['story'] },
   { label: 'Team', ids: ['team', 'ethics'] },
   { label: 'Get involved', ids: ['involve'], cta: true },
 ]
@@ -209,7 +209,7 @@ export const numbers = {
     { figure: '1.5 miles', text: 'Many people who wander are found within 1.5 miles of where they disappeared.', ...ALZ },
     { figure: '15 minutes', text: 'If a person is not found within 15 minutes, call the emergency number and say the person has dementia.', ...ALZ },
     { figure: '57 million', text: '57 million people were living with dementia worldwide in 2021. More than 60% live in low- and middle-income countries.', ...WHO },
-    { figure: '5 hours', text: 'Dementia cost economies US$1.3 trillion in 2019. About 50% of that is care by family and friends, who give on average 5 hours of care and supervision per day.', ...WHO },
+    { figure: 'US$1.3 trillion', text: 'Dementia cost economies US$1.3 trillion in 2019. About 50% of that is care by family and friends, who give on average 5 hours of care and supervision per day.', ...WHO },
   ],
 }
 
