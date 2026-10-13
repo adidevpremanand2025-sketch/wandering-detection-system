@@ -46,7 +46,7 @@ export default function Architecture() {
 
   return (
     <Section id="architecture" heading={architecture.heading}>
-      <div className="grid gap-10 lg:grid-cols-[1fr_minmax(0,34rem)] lg:gap-16">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,40rem)] lg:gap-14">
         <div>
           <div className="lg:sticky lg:top-28">
             <p className="max-w-sm text-xl font-bold leading-snug">{architecture.short}</p>
@@ -68,7 +68,7 @@ export default function Architecture() {
           {/* the decision's two ways out */}
           <li className="relative pl-8">
             <span aria-hidden="true" className="absolute -left-[9px] top-2 h-[15px] w-[15px] rounded-full bg-route" />
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="grid gap-8 md:grid-cols-[1.35fr_1fr]">
               <div className="border-l-4 border-stray pl-4">
                 <p className="sign text-lg text-stray">Yes</p>
                 <div className="mt-2">

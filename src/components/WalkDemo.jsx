@@ -179,8 +179,8 @@ export default function WalkDemo() {
         />
 
         <g aria-hidden="true" transform="translate(272 292)" style={SIGN}>
-          <rect x="-82" y="-20" width="164" height="40" rx="6" fill="var(--color-paper)" stroke="var(--color-route)" strokeWidth="2.5" />
-          <text y="8" textAnchor="middle" fontSize="23" fontWeight="800" fill="var(--color-route)">Usual route</text>
+          <rect x="-92" y="-23" width="184" height="46" rx="7" fill="var(--color-paper)" stroke="var(--color-route)" strokeWidth="2.5" />
+          <text y="9" textAnchor="middle" fontSize="27" fontWeight="800" fill="var(--color-route)">Usual route</text>
         </g>
 
         {/* home */}
@@ -191,7 +191,7 @@ export default function WalkDemo() {
             <path d="M-13 12 V-4 L0 -16 L13 -4 V12 Z" fill="var(--color-paper)" stroke="var(--color-ink)" strokeWidth="2.5" strokeLinejoin="round" />
             <rect x="-4" y="1" width="8" height="11" rx="1.5" fill="var(--color-route)" />
           </g>
-          <text y="62" textAnchor="middle" fontSize="27" fontWeight="800" fill="var(--color-ink)" style={SIGN} {...HALO}>Home</text>
+          <text y="64" textAnchor="middle" fontSize="30" fontWeight="800" fill="var(--color-ink)" style={SIGN} {...HALO}>Home</text>
         </g>
 
         {/* the moment it is noticed */}

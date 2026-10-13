@@ -194,7 +194,7 @@ export default function RoutineOrbit() {
     const cx = w / 2
     const cy = h * 0.5
     const fit = w < 520 ? 0.66 : 1
-    const reach = Math.min(w, h) * 0.24 // how far a drifter parks beyond its orbit
+    const reach = Math.min(w, h) * 0.36 // how far a drifter parks beyond its orbit (clamped to the stage)
     let strayPos = null
     ITEMS.forEach((it, i) => {
       const node = items.current[i]
@@ -226,7 +226,8 @@ export default function RoutineOrbit() {
     if (lab) {
       if (strayPos) {
         const lx = Math.min(Math.max(strayPos.x, 100), w - 100)
-        const ly = strayPos.above ? strayPos.y - strayPos.half - 10 : strayPos.y + strayPos.half + 10
+        // on the side facing away from the mascot and the other items, with a little more air
+        const ly = strayPos.above ? strayPos.y - strayPos.half - 16 : strayPos.y + strayPos.half + 16
         lab.style.transform = `translate3d(${lx}px, ${Math.min(Math.max(ly, 6), h - 6)}px, 0) translate(-50%, ${strayPos.above ? '-100%' : '0'})`
         lab.style.opacity = String(Math.min(1, strayPos.e * 1.6))
       } else {

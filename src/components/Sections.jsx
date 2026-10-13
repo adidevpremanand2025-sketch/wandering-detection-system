@@ -4,9 +4,8 @@ import { problem, story, literature, challenges, hardware, roadmap, team, teamSe
 export function Problem() {
   return (
     <Section id="problem" heading={problem.heading}>
-      {/* the emergency line comes first: someone missing right now is the one true stray */}
-      <p className="max-w-2xl border-l-4 border-stray py-1 pl-5 text-xl font-bold text-ink">{problem.urgent}</p>
-      <p className="lede mt-10 max-w-2xl">{problem.solution}</p>
+      {/* the emergency line lives in the hero and the footer; it is not repeated here */}
+      <p className="lede max-w-2xl">{problem.solution}</p>
       {/* the three reasons, as one plain sentence each instead of a three-column row */}
       <ul className="mt-10 max-w-2xl space-y-3 text-xl">
         {problem.points.map((p) => (
@@ -23,8 +22,9 @@ export function Problem() {
 function PullQuote({ label, children }) {
   return (
     <figure className="mt-16 max-w-3xl border-l-4 border-route pl-6 md:pl-8">
+      {/* the label leads the quote, at reading size, instead of trailing it as a small caption */}
+      <figcaption className="mb-3 text-lg font-bold text-route">{label}</figcaption>
       <blockquote className="text-3xl font-extrabold leading-[1.12] tracking-[-0.018em] md:text-4xl">{children}</blockquote>
-      <figcaption className="mt-4 text-base text-muted">{label}</figcaption>
     </figure>
   )
 }
@@ -86,9 +86,54 @@ export function Literature() {
 
 // Three planned parts, set as plain rows. A photo appears only if one is added to public/images and
 // referenced from content.js; until then there is no placeholder art pretending to be one.
+function Chip({ name, role, main = false }) {
+  return (
+    <div className={`rounded-card border-2 px-4 py-3 text-center ${main ? 'border-route bg-route-soft' : 'border-ink bg-paper'}`}>
+      <p className="text-xl font-extrabold text-ink">{name}</p>
+      <p className="sign text-base text-muted">{role}</p>
+    </div>
+  )
+}
+
+function Link({ vertical = false }) {
+  // a plain line with an arrowhead each end: readings go to the ESP32
+  return vertical ? (
+    <svg aria-hidden="true" width="20" height="36" viewBox="0 0 20 36" className="mx-auto text-ink">
+      <path d="M10 4 V32 M5 27 L10 33 L15 27 M5 9 L10 3 L15 9" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ) : (
+    <svg aria-hidden="true" width="44" height="20" viewBox="0 0 44 20" className="text-ink">
+      <path d="M4 10 H40 M9 5 L3 10 L9 15 M35 5 L41 10 L35 15" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+// How the three planned parts connect: the two sensors feed the ESP32. Drawn from the plan in
+// content.js (ESP32 + accelerometer + GPS), not from a built board.
+function HardwareDiagram() {
+  const [esp, mpu, gps] = hardware.items
+  return (
+    <figure className="mb-14 max-w-4xl">
+      <div className="rounded-card-lg border-2 border-dashed border-route p-4 md:p-6">
+        <div className="grid items-center justify-items-stretch gap-1 md:grid-cols-[1fr_auto_1.15fr_auto_1fr] md:gap-3">
+          <Chip name={mpu.name} role="feels movement" />
+          <div className="flex justify-center"><span className="md:hidden"><Link vertical /></span><span className="hidden md:block"><Link /></span></div>
+          <Chip name={esp.name} role="reads both, sends on" main />
+          <div className="flex justify-center"><span className="md:hidden"><Link vertical /></span><span className="hidden md:block"><Link /></span></div>
+          <Chip name={gps.name} role="knows where" />
+        </div>
+      </div>
+      <figcaption className="mt-3 text-base text-muted">
+        The plan: all three sit together in one small worn device. The two sensors feed the ESP32, which passes the readings on to our software.
+      </figcaption>
+    </figure>
+  )
+}
+
 export function Hardware() {
   return (
     <Section id="hardware" heading={hardware.heading}>
+      <HardwareDiagram />
       <ul className="grid gap-x-10 gap-y-10 md:grid-cols-3">
         {hardware.items.map((h) => (
           <li key={h.name} className="border-t-2 border-ink pt-4">
@@ -164,7 +209,10 @@ export function Footer() {
           <p>{site.college}, {site.year}</p>
           <a href="#ethics" className="mt-1 inline-block py-2 underline underline-offset-4 hover:text-route">Ethics and privacy</a>
         </div>
-        <p className="md:col-span-4">A student project. Not a medical device.</p>
+        <div className="md:col-span-4">
+          <p>A student project. Not a medical device.</p>
+          <p className="mt-2 border-l-4 border-stray pl-3 font-bold text-ink">{problem.urgent}</p>
+        </div>
       </div>
     </footer>
   )

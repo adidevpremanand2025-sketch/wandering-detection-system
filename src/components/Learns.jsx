@@ -12,7 +12,7 @@ const W = 640
 const H = 280
 const H0 = 6 // chart starts at 6am
 const H1 = 22 // and ends at 10pm
-const FLAG_H = 14.5 // when today is noticed (2:30pm)
+const FLAG_H = 14 // when today is noticed: 2pm, on the gridline, matching the callout
 
 const x = (h) => ((h - H0) / (H1 - H0)) * W
 const y = (v) => 256 - Math.max(0, Math.min(1.08, v)) * 170 // headroom above the peak for the callout
@@ -24,7 +24,7 @@ const lo = (h) => usual(h) * 0.68 - 0.02
 const hi = (h) => usual(h) * 1.32 + 0.05
 
 // Today: follows the usual day, then drops well below it from 2pm.
-const slow = (h) => Math.max(0, Math.min(1, (h - 13.75) / 0.5)) // 0 before 1:45pm, 1 after 2:15pm
+const slow = (h) => Math.max(0, Math.min(1, (h - 13.1) / 0.5)) // 0 before about 1:10pm, 1 after about 1:40pm
 const today = (h) => usual(h) * (1 + 0.1 * Math.sin(h * 7.3)) * (1 - slow(h) * 0.62)
 
 const STEPS = Array.from({ length: (H1 - H0) * 4 + 1 }, (_, i) => H0 + i / 4)

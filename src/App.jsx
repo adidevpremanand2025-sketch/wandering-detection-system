@@ -29,7 +29,7 @@ export default function App() {
           <Story />
           <Team />
           <About />
-          <Interlude id="closing" tone="soft" visual={<RoutineOrbit />}>So a walk never has to end in worry.</Interlude>
+          <Interlude id="closing" tone="soft" visual={<RoutineOrbit />}>A walk that strays should be noticed early.</Interlude>
           <Involve />
         </Trail>
       </main>

@@ -56,8 +56,8 @@ export default function Navbar() {
                 <a
                   href={`#${n.ids[0]}`}
                   aria-current={current(n) ? 'true' : undefined}
-                  className={`inline-block whitespace-nowrap px-3 py-2 text-base underline-offset-[10px] transition-colors ${
-                    current(n) ? 'font-bold text-ink underline decoration-route decoration-[3px]' : 'text-muted hover:text-ink'
+                  className={`inline-block whitespace-nowrap px-2.5 py-2 text-lg underline-offset-[10px] transition-colors ${
+                    current(n) ? 'font-bold text-ink underline decoration-route decoration-[3px]' : 'font-medium text-ink hover:text-route'
                   }`}
                 >
                   {n.label}
