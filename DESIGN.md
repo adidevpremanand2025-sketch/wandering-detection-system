@@ -102,6 +102,9 @@ Mobile-first. The nav collapses to a Menu button below lg; the hero stacks (head
 
 ### Changelog
 #### v3.4.0
+- Changed: the closing line is "A walk that strays should be noticed early." (it no longer promises an outcome). The emergency line lives in the hero and the footer, not in Problem.
+- Added: a hardware block diagram (MPU-6050 and GPS feeding the ESP32, in one dashed "worn device" outline), drawn in code from the plan.
+- Changed: the orbit drifter parks about 1.5x farther out; the pipeline column and Yes branch are wider; the usual-day chart's notice ring sits on the 2pm gridline; nav links are 19px ink; pull-quote labels lead the quote at reading size; walk map labels are larger.
 - Changed: page order is evidence-first: Problem, Numbers, Literature (the gap quote is folded in; the Challenges section is removed), the stray interlude, Learns, Pipeline, Hardware, Roadmap, Story, Team, Ethics, the closing orbit, Involve. Nav order follows: Why, The evidence, How it works, Our story, Team.
 - Changed: the trail gutter is wider (lg:pl-40) so the stray ring clears the text; its "Noticed" label sits left of the ring.
 - Changed: the walk notices just after leaving the route (TO_FLAG is the first half of the excursion's first curve) instead of at its far end. The nav shows no active item over the hero or the closing band (#closing).
