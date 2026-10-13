@@ -1,12 +1,12 @@
 import Button from './Button.jsx'
-import Contours from './Contours.jsx'
 import WalkDemo from './WalkDemo.jsx'
 import { site, team, walk, problem } from '../content.js'
 
 /**
  * Hero: the walk itself. On wide screens the headline and actions sit left and the map right.
  * On a phone the order is headline, status, emergency line, then the map, then the rest, so the
- * demo is on the first screen instead of below the buttons. Contour lines are the paper.
+ * demo is on the first screen instead of below the buttons. The map card draws its own contour lines;
+ * nothing is drawn behind the text.
  */
 export default function Hero() {
   const list = team.map((t) => t.name)
@@ -14,8 +14,6 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative overflow-hidden">
-      {/* contours stay behind the map, never behind the headline or body text */}
-      <div className="absolute inset-y-0 right-0 hidden w-[62%] lg:block"><Contours /></div>
       <div className="relative mx-auto grid max-w-6xl gap-x-10 gap-y-8 px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:pb-24">
         {/* A: headline, status, emergency */}
         <div className="lg:col-span-5 lg:row-start-1 lg:pt-6">

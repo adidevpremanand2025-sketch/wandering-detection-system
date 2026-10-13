@@ -47,9 +47,8 @@ Defined in `src/index.css` in two tiers. **Primitives** (`--palette-<hue>-<step>
 | Component | Purpose | Variants |
 |-----------|---------|----------|
 | Button (`Button.jsx`) | The one call-to-action, shaped like a small sign (6px corners) | variant: solid (stray) / outline; tone: default / onTrust; size: md / lg |
-| Hero (`Hero.jsx`) | Headline and actions left (5 cols); the walk map right (7 cols); contour paper behind | none |
+| Hero (`Hero.jsx`) | Headline and actions left (5 cols); the walk map right (7 cols). The map card draws its own contour lines; nothing is drawn behind the text | none |
 | WalkDemo (`WalkDemo.jsx`) | The walk: park-green usual route, today's line in ink that turns magenta the moment it leaves the route, the "Noticed early" ring, Home. Plays once on load; slider and Play/Pause | playing / paused / leaving / noticed / home |
-| Contours (`Contours.jsx`) | Static topographic lines, the map's paper | none |
 | Trail (`Trail.jsx`) | Page-long route in the left gutter (lg+), walked as you scroll; one magenta detour at `strayAt`; a house at `homeAt` | reduced motion: shown whole |
 | Section (`ui.jsx`) | Heading + content, a stop marker on the trail, `TRAIL_INSET` gutter | tone: plain / soft; emphasis |
 | Interlude | One sentence given a full pause; no entrance animation | tone: plain / soft; optional `id` |
