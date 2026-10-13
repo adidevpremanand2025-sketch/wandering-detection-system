@@ -7,7 +7,8 @@ import About from './components/About.jsx'
 import Architecture from './components/Architecture.jsx'
 import Interlude from './components/Interlude.jsx'
 import RoutineOrbit from './components/RoutineOrbit.jsx'
-import { Problem, Story, Literature, Challenges, Objectives, Hardware, Roadmap, Team, Footer } from './components/Sections.jsx'
+import Learns from './components/Learns.jsx'
+import { Problem, Story, Literature, Challenges, Hardware, Roadmap, Team, Footer } from './components/Sections.jsx'
 
 export default function App() {
   return (
@@ -22,8 +23,8 @@ export default function App() {
           <Numbers />
           <Literature />
           <Challenges />
-          <Objectives />
           <Interlude id="stray">Everyone moves differently. Ours learns each person&rsquo;s own routine.</Interlude>
+          <Learns />
           <Architecture />
           <Hardware />
           <Roadmap />

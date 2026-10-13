@@ -13,7 +13,7 @@ const TODAY = `${TO_FLAG} C 560 220, 520 420, 300 470 S 170 430, 130 400`
 // The clock under the walk runs 1:30 to 2:30 pm, to match the example alert.
 const START_MIN = 13 * 60 + 30
 const SPAN_MIN = 60
-const PLAY_SECONDS = 16
+const PLAY_SECONDS = 10
 const HOME_AT = 0.985
 
 const STATUS = {

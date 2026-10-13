@@ -125,17 +125,23 @@ const ITEMS = [
 ]
 const SECONDS_PER_TURN = 36
 const CYCLE = 11 // one item strays every CYCLE seconds, in turn
-const WINDOW = [0.25, 0.9] // the part of each cycle during which it is off its orbit
+const HOLD_AT = 0.4 // fraction of the cycle at which the drifter stops, off its orbit
 
-// 0 on its orbit, 1 at the furthest point of the drift; eased in and out.
+const smooth = (a, b, v) => {
+  const x = Math.min(1, Math.max(0, (v - a) / (b - a)))
+  return x * x * (3 - 2 * x)
+}
+
+// 0 on its orbit, 1 while parked off it. Eases out (0.2 to 0.4), holds about 4s (0.4 to 0.75), eases back.
 const stray = (t, i) => {
   const k = Math.floor(t / CYCLE) % ITEMS.length
   if (k !== i) return 0
   const u = (t % CYCLE) / CYCLE
-  if (u < WINDOW[0] || u > WINDOW[1]) return 0
-  const s = Math.sin((Math.PI * (u - WINDOW[0])) / (WINDOW[1] - WINDOW[0]))
-  return s * s
+  return smooth(0.2, HOLD_AT, u) * (1 - smooth(0.75, 0.9, u))
 }
+
+// Where item i is on its orbit (radians) at time t.
+const angleAt = (t, i) => (t / SECONDS_PER_TURN) * Math.PI * 2 + (i * Math.PI * 2) / ITEMS.length
 
 // Deterministic twinkles: fixed positions so a re-render never reshuffles them.
 const SPARKS = Array.from({ length: 22 }, (_, i) => ({
@@ -183,32 +189,50 @@ export default function RoutineOrbit() {
     const el = stage.current
     if (!el) return
     const { w, h } = dims.current.w ? dims.current : { w: el.clientWidth, h: el.clientHeight }
-    const rx = w * 0.4
-    const ry = h * 0.2
+    const rx = w * 0.36
+    const ry = h * 0.19
     const cx = w / 2
     const cy = h * 0.5
     const fit = w < 520 ? 0.66 : 1
+    const reach = Math.min(w, h) * 0.24 // how far a drifter parks beyond its orbit
     let strayPos = null
     ITEMS.forEach((it, i) => {
       const node = items.current[i]
       if (!node) return
-      const th = (t / SECONDS_PER_TURN) * Math.PI * 2 + (i * Math.PI * 2) / ITEMS.length
       const e = still ? (i === 2 ? 1 : 0) : stray(t, i)
+      // While it drifts, the item stops circling: its angle settles on where it was when the hold began.
+      const held = angleAt(Math.floor(t / CYCLE) * CYCLE + CYCLE * HOLD_AT, i)
+      const live = angleAt(t, i)
+      const th = live + (held - live) * e
       const depth = (Math.sin(th) + 1) / 2 // 0 at the back, 1 at the front
-      const s = (0.72 + 0.4 * depth) * fit * (1 + 0.1 * e)
-      const x = cx + rx * (1 + 0.22 * e) * Math.cos(th) - it.size / 2
-      const y = cy + ry * (1 + 0.8 * e) * Math.sin(th) - it.size / 2 - h * 0.06 * e
+      const s = (0.72 + 0.4 * depth) * fit * (1 + 0.12 * e)
+      // push straight out from the mascot, so it leaves the orbit instead of just widening it
+      const px = rx * Math.cos(th)
+      const py = ry * Math.sin(th)
+      const len = Math.hypot(px, py) || 1
+      const half = (it.size * s) / 2
+      const xc = Math.min(Math.max(cx + px + (px / len) * reach * e, half + 8), w - half - 8)
+      const yc = Math.min(Math.max(cy + py + (py / len) * reach * e - h * 0.04 * e, half + 8), h - half - 8)
       const turn = 30 * Math.cos(th * 2 + i) + 40 * e
-      node.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${s}) perspective(700px) rotateY(${turn}deg)`
+      node.style.transform = `translate3d(${xc - it.size / 2}px, ${yc - it.size / 2}px, 0) scale(${s}) perspective(700px) rotateY(${turn}deg)`
       node.style.zIndex = e > 0.05 ? 40 : depth > 0.5 ? 30 : 5
       node.style.opacity = String(0.78 + 0.22 * depth)
       const ring = rings.current[i]
       if (ring) ring.style.opacity = String(Math.min(1, e * 1.4))
-      if (e > 0.05) strayPos = { e }
+      if (e > 0.05) strayPos = { e, x: xc, y: yc, half, above: yc < cy }
     })
-    // The label stays put and only fades, so it can be read before anything about it moves.
+    // The label rides with the drifter, which is parked (not moving) while the label is at full strength.
     const lab = label.current
-    if (lab) lab.style.opacity = strayPos ? String(Math.min(1, strayPos.e * 1.6)) : '0'
+    if (lab) {
+      if (strayPos) {
+        const lx = Math.min(Math.max(strayPos.x, 100), w - 100)
+        const ly = strayPos.above ? strayPos.y - strayPos.half - 10 : strayPos.y + strayPos.half + 10
+        lab.style.transform = `translate3d(${lx}px, ${Math.min(Math.max(ly, 6), h - 6)}px, 0) translate(-50%, ${strayPos.above ? '-100%' : '0'})`
+        lab.style.opacity = String(Math.min(1, strayPos.e * 1.6))
+      } else {
+        lab.style.opacity = '0'
+      }
+    }
   }
 
   useEffect(() => {
@@ -259,7 +283,7 @@ export default function RoutineOrbit() {
 
         {/* the usual orbit, drawn faintly */}
         <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <ellipse cx="50" cy="50" rx="40" ry="20" fill="none" stroke="var(--color-route)" strokeWidth="0.35" strokeDasharray="1.2 1.6" opacity="0.55" vectorEffect="non-scaling-stroke" />
+          <ellipse cx="50" cy="50" rx="36" ry="19" fill="none" stroke="var(--color-route)" strokeWidth="0.35" strokeDasharray="1.2 1.6" opacity="0.55" vectorEffect="non-scaling-stroke" />
         </svg>
 
         {/* the mascot, with a slow dashed ring */}
@@ -290,7 +314,7 @@ export default function RoutineOrbit() {
 
         <p
           ref={label}
-          className="sign absolute bottom-2 left-1/2 z-50 -translate-x-1/2 whitespace-nowrap rounded-card bg-paper px-3 py-1.5 text-base text-stray opacity-0 ring-2 ring-stray"
+          className="sign absolute left-0 top-0 z-50 whitespace-nowrap rounded-card bg-paper px-3 py-1.5 text-base text-stray opacity-0 ring-2 ring-stray"
         >
           Off its usual orbit
         </p>

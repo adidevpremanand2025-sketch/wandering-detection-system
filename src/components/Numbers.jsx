@@ -1,4 +1,3 @@
-import { motion, useReducedMotion } from 'framer-motion'
 import { Section } from './ui.jsx'
 import { numbers } from '../content.js'
 
@@ -11,25 +10,18 @@ function SourceLink({ source, url }) {
 }
 
 // Ten people, six filled: the "six in 10" figure from the lead stat, drawn to scale.
-// Filled means "strayed", so these are the one place magenta marks people.
+// Filled means "strayed", so these are the one place magenta marks people. Static on purpose:
+// six solid, four outline, with no fade that could be misread as a fraction.
 function SixInTen() {
-  const reduce = useReducedMotion()
   return (
     <svg viewBox="0 0 320 44" className="mb-6 h-auto w-full max-w-md" role="img" aria-label="6 out of 10 people filled in">
       {Array.from({ length: 10 }, (_, i) => {
         const filled = i < 6
         return (
-          <motion.g
-            key={i}
-            transform={`translate(${i * 32} 0)`}
-            initial={reduce ? false : { opacity: filled ? 0.25 : 1 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '0px 0px -15% 0px' }}
-            transition={{ duration: 0.6, delay: filled ? 0.3 + i * 0.2 : 0 }}
-          >
+          <g key={i} transform={`translate(${i * 32} 0)`}>
             <circle cx="12" cy="7" r="6" fill={filled ? 'var(--color-stray)' : 'none'} stroke="var(--color-ink)" strokeWidth="1.75" />
             <path d="M3 43 V25 a9 9 0 0 1 18 0 V43 Z" fill={filled ? 'var(--color-stray)' : 'none'} stroke="var(--color-ink)" strokeWidth="1.75" />
-          </motion.g>
+          </g>
         )
       })}
     </svg>

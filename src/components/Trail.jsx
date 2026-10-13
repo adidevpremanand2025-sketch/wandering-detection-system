@@ -11,7 +11,7 @@ import { TRAIL_X, TrailContext } from './ui.jsx'
  * Under reduced motion the whole route is shown at once.
  */
 const X = TRAIL_X
-const OUT = 88 // how far the stray swings out
+const OUT = 120 // how far the stray swings out (the gutter is 140px wide)
 
 export default function Trail({ strayAt, homeAt, children }) {
   const wrap = useRef(null)
@@ -49,6 +49,8 @@ export default function Trail({ strayAt, homeAt, children }) {
 
   return (
     <div ref={wrap} className="relative">
+      {/* narrow screens: a plain left rule stands in for the trail (the detour is drawn in Interlude) */}
+      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-3 z-10 w-[3px] bg-route lg:hidden" />
       <TrailContext.Provider value>{children}</TrailContext.Provider>
       {geo && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 hidden lg:block">
@@ -70,9 +72,9 @@ export default function Trail({ strayAt, homeAt, children }) {
                 <path d={before} stroke="var(--color-route)" />
                 <path d={stray} stroke="var(--color-stray)" />
                 <path d={after} stroke="var(--color-route)" />
-                <circle cx={OUT} cy={ring.y} r="13" stroke="var(--color-stray)" strokeWidth="3" fill="var(--color-paper)" />
-                <circle cx={OUT} cy={ring.y} r="4" fill="var(--color-stray)" stroke="none" />
-                <text x={OUT - 22} y={ring.y + 5} textAnchor="end" className="sign" fontSize="15" fill="var(--color-stray)" stroke="var(--color-paper)" strokeWidth="5" style={{ paintOrder: 'stroke' }}>
+                <circle cx={OUT} cy={ring.y} r="16" stroke="var(--color-stray)" strokeWidth="3.5" fill="var(--color-paper)" />
+                <circle cx={OUT} cy={ring.y} r="5" fill="var(--color-stray)" stroke="none" />
+                <text x={OUT} y={ring.y - 28} textAnchor="middle" className="sign" fontSize="18" fill="var(--color-stray)" stroke="var(--color-paper)" strokeWidth="6" style={{ paintOrder: 'stroke' }}>
                   Noticed
                 </text>
               </g>
