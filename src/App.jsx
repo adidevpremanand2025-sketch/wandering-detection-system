@@ -21,7 +21,7 @@ export default function App() {
           <Problem />
           <Numbers />
           <Literature />
-          <Interlude id="stray" tone="route">Everyone moves differently. Ours learns each person&rsquo;s own routine.</Interlude>
+          <Interlude id="stray">Everyone moves differently. Ours learns each person&rsquo;s own routine.</Interlude>
           <Learns />
           <Architecture />
           <Hardware />

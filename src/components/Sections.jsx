@@ -1,10 +1,9 @@
 import { Section } from './ui.jsx'
-import Grandpa from './Grandpa.jsx'
 import { problem, story, literature, challenges, hardware, roadmap, team, teamSection, site } from '../content.js'
 
 export function Problem() {
   return (
-    <Section id="problem" heading={problem.heading} tone="route">
+    <Section id="problem" heading={problem.heading}>
       {/* the emergency line lives in the hero and the footer; it is not repeated here */}
       <p className="lede max-w-2xl">{problem.solution}</p>
       {/* the three reasons, as one plain sentence each instead of a three-column row */}
@@ -20,9 +19,9 @@ export function Problem() {
 }
 
 /** A large pull quote with a short attribution under it. No box: it sits on the paper. */
-function PullQuote({ label, children, className = 'mt-16' }) {
+function PullQuote({ label, children }) {
   return (
-    <figure className={`max-w-3xl border-l-4 border-route pl-6 md:pl-8 ${className}`}>
+    <figure className="mt-16 max-w-3xl border-l-4 border-route pl-6 md:pl-8">
       {/* the label leads the quote, at reading size, instead of trailing it as a small caption */}
       <figcaption className="mb-3 text-lg font-bold text-route">{label}</figcaption>
       <blockquote className="text-3xl font-extrabold leading-[1.12] tracking-[-0.018em] md:text-4xl">{children}</blockquote>
@@ -32,18 +31,14 @@ function PullQuote({ label, children, className = 'mt-16' }) {
 
 export function Story() {
   return (
-    <Section id="story" heading={story.heading} emphasis tone="route">
+    <Section id="story" heading={story.heading} emphasis>
       <div className="grid gap-10 md:grid-cols-12">
         <p className="lede md:col-span-7">{story.lede}</p>
         <div className="space-y-5 md:col-span-5">
           {story.body.map((t) => <p key={t}>{t}</p>)}
         </div>
       </div>
-      {/* the mascot sits with the line the team holds to: he is who it is for */}
-      <div className="mt-16 grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_15rem]">
-        <PullQuote label={story.quoteLabel} className="">{story.quote}</PullQuote>
-        <Grandpa className="mx-auto aspect-square w-44 rounded-full ring-4 ring-ink lg:w-60" title="A cartoon grandfather with glasses and a big smile, waving" />
-      </div>
+      <PullQuote label={story.quoteLabel}>{story.quote}</PullQuote>
     </Section>
   )
 }
@@ -155,7 +150,7 @@ export function Hardware() {
 }
 export function Roadmap() {
   return (
-    <Section id="roadmap" heading={roadmap.heading} tone="soft">
+    <Section id="roadmap" heading={roadmap.heading}>
       <ol className="relative grid gap-10 md:grid-cols-4 md:gap-8">
         <span className="absolute bottom-0 left-[7px] top-0 w-[3px] bg-rule md:hidden" aria-hidden="true" />
         <span className="absolute left-0 right-0 top-[7px] hidden h-[3px] bg-rule md:block" aria-hidden="true" />
@@ -177,7 +172,7 @@ export function Roadmap() {
 
 export function Team() {
   return (
-    <Section id="team" heading={teamSection.heading} tone="soft">
+    <Section id="team" heading={teamSection.heading}>
       <ul className="max-w-3xl">
         {team.map((t) => (
           <li key={t.reg} className="flex flex-col justify-between gap-1 border-t border-rule py-5 sm:flex-row sm:items-baseline">

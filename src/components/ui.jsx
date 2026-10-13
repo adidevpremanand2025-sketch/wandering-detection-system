@@ -1,11 +1,5 @@
 import { createContext, useContext } from 'react'
 
-/**
- * Section grounds, alternated down the page so each part has its own colour rather than one flat sheet:
- * paper (default), soft (a pale sage), route (the park green tint, the colour of the usual route).
- */
-export const BAND = { plain: '', soft: 'bg-soft', route: 'bg-route-soft' }
-
 /** True inside <Trail>. Stop markers only draw there, so they never float without a trail. */
 export const TrailContext = createContext(false)
 
@@ -23,7 +17,7 @@ export function Section({ id, heading, children, className = '', tone = 'plain',
     <section
       id={id}
       aria-labelledby={`${id}-h`}
-      className={`border-t border-rule ${BAND[tone] || ''} ${className}`}
+      className={`border-t border-rule ${tone === 'soft' ? 'bg-soft' : ''} ${className}`}
     >
       <div className={`relative mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24 ${TRAIL_INSET}`}>
         <StopMarker />

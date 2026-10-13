@@ -101,7 +101,6 @@ Mobile-first. The nav collapses to a Menu button below lg; the hero stacks (head
 
 ### Changelog
 #### v3.4.0
-- Changed (liveliness pass): sections alternate grounds down the page (paper, pale sage, park-green tint) via `BAND` in `ui.jsx`; `.h2` is larger (up to 72px); the lead statistic is a giant "6 in 10" in the sign face (Atkinson's slashed zero reads as a "no" symbol at that size); the mascot sits beside the story's pull quote.
 - Changed: the closing line is "A walk that strays should be noticed early." (it no longer promises an outcome). The emergency line lives in the hero and the footer, not in Problem.
 - Added: a hardware block diagram (MPU-6050 and GPS feeding the ESP32, in one dashed "worn device" outline), drawn in code from the plan.
 - Changed: the orbit drifter parks about 1.5x farther out; the pipeline column and Yes branch are wider; the usual-day chart's notice ring sits on the 2pm gridline; nav links are 19px ink; pull-quote labels lead the quote at reading size; walk map labels are larger.

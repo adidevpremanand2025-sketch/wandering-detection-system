@@ -1,4 +1,4 @@
-import { TRAIL_INSET, BAND } from './ui.jsx'
+import { TRAIL_INSET } from './ui.jsx'
 
 /**
  * Interlude: one sentence, given a whole pause between dense sections.
@@ -12,7 +12,7 @@ import { TRAIL_INSET, BAND } from './ui.jsx'
  */
 export default function Interlude({ tone = 'plain', id, visual, children }) {
   return (
-    <section id={id} className={`relative border-t border-rule ${BAND[tone] || ''}`}>
+    <section id={id} className={`relative border-t border-rule ${tone === 'soft' ? 'bg-soft' : ''}`}>
       {/* on narrow screens (no trail) the one stray is a magenta stretch of the left rule */}
       {id === 'stray' && <span aria-hidden="true" className="absolute inset-y-[22%] left-3 z-20 w-[3px] bg-stray lg:hidden" />}
       <div
