@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react'
+import MapVignette from './MapVignette.jsx'
 
 /** True inside <Trail>. Stop markers only draw there, so they never float without a trail. */
 export const TrailContext = createContext(false)
@@ -11,7 +12,7 @@ export const TrailContext = createContext(false)
  * On wide screens each section is a stop on the Trail: the content sits right of the trail gutter,
  * and a small marker on the trail lines up with the heading.
  */
-export function Section({ id, heading, children, className = '', tone = 'plain', emphasis = false }) {
+export function Section({ id, heading, children, className = '', tone = 'plain', emphasis = false, vignette }) {
   const text = Array.isArray(heading) ? heading.join('') : heading
   return (
     <section
@@ -21,7 +22,14 @@ export function Section({ id, heading, children, className = '', tone = 'plain',
     >
       <div className={`relative mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24 ${TRAIL_INSET}`}>
         <StopMarker />
-        <h2 id={`${id}-h`} className={`h2 ${emphasis ? 'max-w-4xl md:!text-6xl' : 'max-w-3xl'}`}>{text}</h2>
+        {/* a small map scene in the right margin, beside the heading (extra-wide screens only) */}
+        {vignette && <MapVignette kind={vignette} className="right-8 top-24" />}
+        <h2
+          id={`${id}-h`}
+          className={`h2 ${emphasis ? 'max-w-4xl md:!text-6xl' : 'max-w-3xl'} ${vignette ? 'xl:max-w-[40rem]' : ''}`}
+        >
+          {text}
+        </h2>
         <div className="mt-10 md:mt-14">{children}</div>
       </div>
     </section>

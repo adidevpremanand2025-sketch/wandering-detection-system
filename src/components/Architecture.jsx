@@ -45,7 +45,7 @@ export default function Architecture() {
   const keep = byId.continue
 
   return (
-    <Section id="architecture" heading={architecture.heading}>
+    <Section id="architecture" heading={architecture.heading} vignette="signal">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,40rem)] lg:gap-14">
         <div>
           <div className="lg:sticky lg:top-28">

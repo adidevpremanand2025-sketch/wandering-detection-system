@@ -3,7 +3,7 @@ import { problem, story, literature, challenges, hardware, roadmap, team, teamSe
 
 export function Problem() {
   return (
-    <Section id="problem" heading={problem.heading}>
+    <Section id="problem" heading={problem.heading} vignette="home">
       {/* the emergency line lives in the hero and the footer; it is not repeated here */}
       <p className="lede max-w-2xl">{problem.solution}</p>
       {/* the three reasons, as one plain sentence each instead of a three-column row */}
@@ -31,7 +31,7 @@ function PullQuote({ label, children }) {
 
 export function Story() {
   return (
-    <Section id="story" heading={story.heading} emphasis>
+    <Section id="story" heading={story.heading} emphasis vignette="bench">
       <div className="grid gap-10 md:grid-cols-12">
         <p className="lede md:col-span-7">{story.lede}</p>
         <div className="space-y-5 md:col-span-5">
@@ -46,7 +46,7 @@ export function Story() {
 export function Literature() {
   const [c1, c2, c3] = literature.columns
   return (
-    <Section id="literature" heading={literature.heading}>
+    <Section id="literature" heading={literature.heading} vignette="fence">
       <table className="hidden w-full border-collapse text-left md:table">
         <caption className="sr-only">Comparison of existing wandering-detection approaches</caption>
         <thead>
@@ -132,7 +132,7 @@ function HardwareDiagram() {
 
 export function Hardware() {
   return (
-    <Section id="hardware" heading={hardware.heading}>
+    <Section id="hardware" heading={hardware.heading} vignette="chips">
       <HardwareDiagram />
       <ul className="grid gap-x-10 gap-y-10 md:grid-cols-3">
         {hardware.items.map((h) => (
@@ -150,7 +150,7 @@ export function Hardware() {
 }
 export function Roadmap() {
   return (
-    <Section id="roadmap" heading={roadmap.heading}>
+    <Section id="roadmap" heading={roadmap.heading} vignette="hill">
       <ol className="relative grid gap-10 md:grid-cols-4 md:gap-8">
         <span className="absolute bottom-0 left-[7px] top-0 w-[3px] bg-rule md:hidden" aria-hidden="true" />
         <span className="absolute left-0 right-0 top-[7px] hidden h-[3px] bg-rule md:block" aria-hidden="true" />
@@ -172,8 +172,8 @@ export function Roadmap() {
 
 export function Team() {
   return (
-    <Section id="team" heading={teamSection.heading}>
-      <ul className="max-w-3xl">
+    <Section id="team" heading={teamSection.heading} vignette="grove">
+      <ul className="max-w-3xl xl:max-w-[40rem]">
         {team.map((t) => (
           <li key={t.reg} className="flex flex-col justify-between gap-1 border-t border-rule py-5 sm:flex-row sm:items-baseline">
             <div>

@@ -95,11 +95,14 @@ Mobile-first. The nav collapses to a Menu button below lg; the hero stacks (head
 - Dark mode is reachable only by setting `data-theme="dark"` on `<html>`; there is no toggle.
 
 ## Design System Version
-**v3.4.0**: the neighbourhood map, after the third critique.
+**v3.5.0**: the neighbourhood map, with margin map scenes.
 - Token tiers: primitives (`--palette-*`) → semantic (`--color-*`).
 - Versioning: Major = a semantic token is renamed or removed, or a component prop is removed. Minor = new token, variant or component. Patch = value tweaks.
 
 ### Changelog
+#### v3.5.0
+- Added: `MapVignette` (`src/components/MapVignette.jsx`): small hand-drawn map scenes in the right margin beside section headings, continuing the walk map's world down the page. One per section, each about it: an open door with footsteps leaving (Problem), a 1.5-mile ring with a scale bar (Numbers), a geofence already crossed before the bell (Literature), a signpost (the stray interlude), the sun's arc through the day (Learns), a wrist band signalling a phone (Pipeline), wired boards (Hardware), a switchback to a flag (Roadmap), a park bench and lamp (Story), three trees (Team), a locked gate (Ethics). Same line language as the walk map; magenta only on footsteps that have strayed and the phone's alert.
+- Rules: decorative (aria-hidden), static, shown only at xl (1280px and up). `Section` and `Interlude` take a `vignette` prop; with it, the heading (and a few first blocks: the Numbers lead, the Learns lede, the Team list) narrow to 40rem at xl so text and scene never touch. Checked with an automated overlap test at 1280, 1366 and 1440.
 #### v3.4.0
 - Changed: the closing line is "A walk that strays should be noticed early." (it no longer promises an outcome). The emergency line lives in the hero and the footer, not in Problem.
 - Added: a hardware block diagram (MPU-6050 and GPS feeding the ESP32, in one dashed "worn device" outline), drawn in code from the plan.

@@ -38,8 +38,8 @@ const TICKS = ['6 am', '10 am', '2 pm', '6 pm', '10 pm']
 
 export default function Learns() {
   return (
-    <Section id="learns" heading={learns.heading}>
-      <p className="lede max-w-2xl">{learns.lede}</p>
+    <Section id="learns" heading={learns.heading} vignette="day">
+      <p className="lede max-w-2xl xl:max-w-[36rem]">{learns.lede}</p>
 
       <figure className="mt-12 max-w-4xl">
         <p className="mb-3 text-base font-bold text-ink">{learns.axis}</p>

@@ -3,7 +3,7 @@ import { ethics, involve } from '../content.js'
 
 export default function About() {
   return (
-    <Section id="ethics" heading={ethics.heading}>
+    <Section id="ethics" heading={ethics.heading} vignette="gate">
       <div className="max-w-2xl space-y-6 leading-relaxed">
         <p className="lede">{ethics.summary}</p>
         {ethics.items.map((it) => (
