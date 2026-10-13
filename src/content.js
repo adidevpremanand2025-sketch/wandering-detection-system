@@ -4,19 +4,20 @@ export const site = {
   title: 'Wandering Detection System for Dementia / Alzheimer’s Patients',
   shortTitle: 'Wandering Detection',
   tagline:
-    'A small, affordable wearable that learns how your loved one normally moves, and tells you early when something feels off.',
+    'We are building a small wearable that is designed to learn how your loved one normally moves, and tell you early when something looks different.',
   heroLine: 'Helping families notice early when someone with dementia may wander.',
-  quiet: 'So a walk never has to end in worry.',
+  // Status line under the tagline: answers "can I get this?" in the first five seconds.
+  quiet: 'A student prototype. Not for sale yet, and not a medical device.',
   college: 'VIT Chennai',
   year: '2025–26',
 }
 
 // Grouped for scanning: `ids` are the page sections each item covers (the first one is the link target).
 export const nav = [
-  { label: 'Why', ids: ['problem', 'walk'] },
+  { label: 'Why', ids: ['problem'] },
   { label: 'Our story', ids: ['story'] },
   { label: 'The evidence', ids: ['numbers', 'literature', 'challenges'] },
-  { label: 'How it works', ids: ['objectives', 'architecture', 'methodology', 'hardware', 'roadmap'] },
+  { label: 'How it works', ids: ['objectives', 'architecture', 'hardware', 'roadmap'] },
   { label: 'Team', ids: ['team', 'ethics'] },
   { label: 'Get involved', ids: ['involve'], cta: true },
 ]
@@ -36,11 +37,11 @@ export const problem = {
   points: [
     { title: 'No warning', body: 'It can happen in the time it takes to make a cup of tea.' },
     { title: 'Real danger', body: 'Getting lost can mean injury, traffic, or a cold night outside.' },
-    { title: 'No one can watch 24/7', body: 'Families need rest. Today’s tools speak up only after the person has already left.' },
+    { title: 'No one can watch 24/7', body: 'Families need rest. Many of today’s tools, such as geofences, speak up only after the person has already left.' },
   ],
   urgent: 'If someone is missing right now, call your local emergency number first.',
   solution:
-    'We are building a gentle wearable that learns what a normal day looks like for one person, notices when it changes, and tells the family early.',
+    'We are building a wearable that is designed to learn what a normal day looks like for one person, notice when it changes, and tell the family early.',
 }
 
 // Draft in the team's voice, grounded in the project brief. Edit freely; keep it plain and honest.
@@ -51,13 +52,14 @@ export const story = {
     'We started because the problem is real, and the tools that exist today speak up too late. We wanted to see how far careful, affordable engineering could go.',
     'This is a college project, and it will be assessed like one. But we did not want it to be only that. Families are living this today, and we would like the work to be useful to them.',
   ],
-  quoteLabel: 'What we believe',
-  quote: 'Even as students, we can notice a real problem and decide to do something about it.',
+  quoteLabel: 'What we hold to',
+  quote: 'We would rather tell you what we do not know yet than promise what we cannot do.',
 }
 
 export const literature = {
   heading: ['Good tools, but they speak up ', 'too late', '.'],
-  columns: ['Tool', 'What it does', 'Where it falls short'],
+  columns: ['Tool', 'What it does', 'What it cannot do'],
+  note: 'These are our summary of how each kind of tool usually works, not a formal review.',
   rows: [
     {
       name: 'GPS Geofencing Trackers',
@@ -67,7 +69,7 @@ export const literature = {
     {
       name: 'Smartwatches (e.g. Apple Watch)',
       does: 'Shares location, detects falls, sends emergency alerts.',
-      limit: 'Built for everyone, not for them. Costly, and the wearer must manage a smartwatch.',
+      limit: 'Built for everyone, not for them. Often costly, and the wearer must manage a smartwatch.',
     },
     {
       name: 'Smart-home sensor systems (e.g. CASAS)',
@@ -76,8 +78,8 @@ export const literature = {
     },
     {
       name: 'Our system',
-      does: 'Combines movement, location and activity, then learns what is normal for one person.',
-      limit: 'Notices when they drift from their own normal, and tells caregivers early.',
+      does: 'Is designed to combine movement and location, then learn what is normal for one person.',
+      limit: 'Still a design: not yet built or tested with real people, and it needs a calibration period before it can judge anything.',
       highlight: true,
     },
   ],
@@ -88,7 +90,7 @@ export const challenges = {
   items: [
     { n: '01', title: 'Late, not early', body: 'Most tools tell you after something has gone wrong.' },
     { n: '02', title: 'Too costly, too complicated', body: 'Many families simply cannot afford them or set them up.' },
-    { n: '03', title: 'One rule for everyone', body: 'Everyone moves differently. Ours learns each person’s own routine.' },
+    { n: '03', title: 'One rule for everyone', body: 'A fixed zone or a single speed limit fits no one. Each person has their own usual day.' },
   ],
   gapLabel: 'The gap',
   gap: 'Families need something affordable and personal that notices early, not after a boundary is crossed.',
@@ -108,7 +110,7 @@ export const objectives = {
 // Pipeline nodes. kind: 'process' | 'decision' | 'end'
 export const architecture = {
   heading: ['From a tiny sensor to a ', 'clear message', '.'],
-  short: 'In short: a small wearable senses movement, learns what is normal for one person, and alerts the family early when something differs.',
+  short: 'In short, the design is: a small wearable senses movement, learns what is normal for one person, and alerts the family early when something differs. This is our plan, not a working system yet.',
   hint: 'Tap any step for a quick explanation.',
   nodes: [
     { id: 'wearable', title: 'Wearable Device', sub: 'ESP32 + Accelerometer + GPS', tip: 'Worn comfortably, it senses movement and position.' },
@@ -119,7 +121,7 @@ export const architecture = {
     { id: 'model', title: 'Anomaly Detection Model', sub: 'Isolation Forest', tip: 'Scores how unusual this moment is for them.' },
     { id: 'decision', kind: 'decision', title: 'Anomaly flagged?', tip: 'Is this different enough to matter?' },
     { id: 'alert', branch: 'YES', title: 'Caregiver Alert', sub: 'App / Dashboard / SMS', tip: 'You hear about it where you already look.' },
-    { id: 'explain', kind: 'end', title: 'Explainable Alert', sub: '“movement 3× slower than usual for 2pm”', tip: 'Every alert says why, so you can decide fast.' },
+    { id: 'explain', kind: 'end', title: 'Explainable Alert', sub: 'Example: “off the usual route, slower than usual for 2pm”', tip: 'Every alert says why, so you can decide fast.' },
     { id: 'continue', branch: 'NO', title: 'Continue Monitoring', sub: 'loops back to Data Collection', tip: 'All is well. Keep watching, quietly.' },
   ],
 }
@@ -138,7 +140,8 @@ export const methodology = {
 }
 
 export const hardware = {
-  heading: ['Small, simple, ', 'affordable', '.'],
+  heading: ['Three small, ', 'ordinary parts', '.'],
+  note: 'These are the parts we plan to use. Illustrations stand in until we have photos of our own boards.',
   items: [
     { name: 'ESP32', kind: 'Microcontroller', role: 'The brain. Reads the sensors and sends data on.', image: null /* add public/images/esp32.jpg then set '/images/esp32.jpg' */ },
     { name: 'MPU-6050', kind: '3-axis accelerometer + gyroscope', role: 'Feels how they move and turn.', image: null /* add public/images/mpu6050.jpg then set '/images/mpu6050.jpg' */ },
@@ -164,9 +167,9 @@ export const teamSection = {
 export const involve = {
   headingParts: ['If someone you love ', 'wanders', ', help us notice ', 'sooner', '.'],
   lede: 'We are students building this for families like yours, and we cannot get it right alone.',
-  body: 'We need people who have lived this, and a few volunteers to wear our prototype for a short trial. A conversation is enough to begin.',
+  body: 'We need people who have lived this. When a prototype is ready, we hope to ask a few families to try it for a short trial. No trial is open yet. A conversation is enough to begin.',
   ways: [
-    { verb: 'Wear it.', body: 'Try the prototype for a short trial. Your ordinary days teach us more than any lab can.' },
+    { verb: 'Try it, later.', body: 'Tell us if you would be willing to wear the prototype for a short trial once it is ready.' },
     { verb: 'Tell us.', body: 'What does a hard afternoon look like? What would you want to be told, and how?' },
     { verb: 'Follow along.', body: 'Ask for a note when there is something real to show.' },
   ],
@@ -175,11 +178,13 @@ export const involve = {
   note: 'What you share stays with the project team and is used only to improve it.',
 }
 
-// Statistics: wording is taken verbatim from the two sources below. Do not add figures from any other source.
+// Statistics: wording follows the two sources below. Do not add figures from any other source.
+// Check before publishing: the "say the person has dementia" clause in the 15-minute line was not found on the
+// Alzheimer's Association page when the reviewers fetched it; confirm it, or reword to the source's own sentence.
 const WHO_URL = 'https://www.who.int/news-room/fact-sheets/detail/dementia'
 const ALZ_URL = 'https://www.alz.org/help-support/caregiving/stages-behaviors/wandering'
-const WHO = { source: 'Source: WHO, 2026 fact sheet', url: WHO_URL }
-const ALZ = { source: "Source: Alzheimer's Association", url: ALZ_URL }
+const WHO = { source: 'Source: WHO dementia fact sheet, 2026', url: WHO_URL }
+const ALZ = { source: "Source: Alzheimer's Association (US guidance)", url: ALZ_URL }
 
 export const numbers = {
   heading: 'The numbers',
@@ -187,15 +192,13 @@ export const numbers = {
     text: 'Six in 10 people living with dementia will wander at least once, and many do so repeatedly.',
     ...ALZ,
   },
+  // Four figures that bear on this project; the rest of the sourced figures were cut as padding.
+  // `figure` is the number pulled out at display size; `text` is the sourced sentence, unchanged.
   stats: [
-    { text: 'Many people who wander are found within 1.5 miles of where they disappeared.', ...ALZ },
-    { text: 'If a person is not found within 15 minutes, call the emergency number and say the person has dementia.', ...ALZ },
-    { text: '57 million people were living with dementia worldwide in 2021. More than 60% live in low- and middle-income countries.', ...WHO },
-    { text: 'Nearly 10 million new cases every year.', ...WHO },
-    { text: "Alzheimer's disease may contribute to 60-70% of dementia cases.", ...WHO },
-    { text: 'Dementia is the seventh leading cause of death worldwide.', ...WHO },
-    { text: 'Dementia cost economies US$1.3 trillion in 2019. About 50% of that is care by family and friends, who give on average 5 hours of care and supervision per day.', ...WHO },
-    { text: 'Women provide 70% of care hours for people living with dementia.', ...WHO },
+    { figure: '1.5 miles', text: 'Many people who wander are found within 1.5 miles of where they disappeared.', ...ALZ },
+    { figure: '15 minutes', text: 'If a person is not found within 15 minutes, call the emergency number and say the person has dementia.', ...ALZ },
+    { figure: '57 million', text: '57 million people were living with dementia worldwide in 2021. More than 60% live in low- and middle-income countries.', ...WHO },
+    { figure: '5 hours', text: 'Dementia cost economies US$1.3 trillion in 2019. About 50% of that is care by family and friends, who give on average 5 hours of care and supervision per day.', ...WHO },
   ],
 }
 
@@ -209,12 +212,12 @@ export const ethics = {
     },
     {
       lead: 'Where it is stored and who sees it:',
-      // TODO: confirm with team where data is stored and who has access (shown on screen as plain text until confirmed)
-      text: ' Test data is shared only within the project team and our faculty reviewers. We do not sell or share data with third parties.',
+      // TODO: the team has not confirmed storage or access. The page says so plainly until they do; replace this text then.
+      text: ' we have not settled this yet, and we will publish it here before any data from people is collected. We do not sell or share data with third parties.',
     },
     {
       lead: 'Consent:',
-      text: ' any testing with people uses informed consent from the person and their caregiver. No real patient data is shown on this site.',
+      text: ' any testing with people will use informed consent from the person and their caregiver.',
     },
     {
       lead: 'Your data:',

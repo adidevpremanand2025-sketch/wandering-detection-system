@@ -1,27 +1,28 @@
 /**
  * Button: the one call-to-action primitive. Renders an <a> when given `href`, otherwise a <button>.
  *
- *   variant  'solid' | 'outline'   lime action pill, or secondary outlined pill
- *   tone     'default' | 'onTrust' on the page, or on the dark `trust` band
+ *   variant  'solid' | 'outline'   magenta primary action, or secondary outlined sign
+ *   tone     'default' | 'onTrust' on the page, or on the dark ink band
  *   size     'md' | 'lg'
  *
- * Always a pill. Focus ring comes from the global :focus-visible rule (the onTrust tone swaps its color).
+ * Shaped like a small sign (6px corners), not a pill. Only one solid button per view.
+ * Focus ring comes from the global :focus-visible rule (the onTrust tone swaps its color).
  */
-const BASE = 'inline-block rounded-full font-semibold transition-colors'
+const BASE = 'inline-block rounded-card font-bold transition-colors'
 
 const SIZE = {
-  md: 'px-6 py-2.5',
-  lg: 'px-8 py-4 text-lg',
+  md: 'px-5 py-2.5',
+  lg: 'px-7 py-3.5 text-lg',
 }
 
 const LOOK = {
   default: {
-    solid: 'bg-lime text-on-lime hover:bg-trust hover:text-on-trust',
-    outline: 'border border-ink text-ink hover:bg-soft',
+    solid: 'bg-stray text-on-stray hover:bg-ink hover:text-paper',
+    outline: 'border-2 border-ink text-ink hover:bg-soft',
   },
   onTrust: {
-    solid: 'bg-lime text-on-lime hover:bg-on-trust hover:text-trust focus-visible:outline-on-trust',
-    outline: 'border border-on-trust text-on-trust hover:bg-on-trust hover:text-trust focus-visible:outline-on-trust',
+    solid: 'bg-stray text-on-stray hover:bg-on-trust hover:text-trust focus-visible:outline-on-trust',
+    outline: 'border-2 border-on-trust text-on-trust hover:bg-on-trust hover:text-trust focus-visible:outline-on-trust',
   },
 }
 

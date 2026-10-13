@@ -1,27 +1,27 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { TRAIL_INSET } from './ui.jsx'
 
 /**
  * Interlude: one sentence, given a whole pause between dense sections.
  *
- *   tone  'plain' | 'soft'   page background, or the soft band
+ *   tone    'plain' | 'soft'   page background, or the tinted band
+ *   id      optional; the Trail uses it to place its one detour beside this pause
+ *   visual  optional element shown beside the sentence on wide screens, below it on narrow ones
  *
- * Keep it to one true sentence (reuse a line already on the page). Fades in once;
- * shows instantly under prefers-reduced-motion.
+ * Keep it to one true sentence (reuse a line already on the page). No entrance animation:
+ * the space around it is the emphasis.
  */
-export default function Interlude({ tone = 'plain', children }) {
-  const reduce = useReducedMotion()
+export default function Interlude({ tone = 'plain', id, visual, children }) {
   return (
-    <section className={`border-t border-rule ${tone === 'soft' ? 'bg-soft' : ''}`}>
-      <div className="mx-auto flex min-h-[55svh] max-w-6xl items-center px-5 py-16 md:min-h-[70svh] md:px-8">
-        <motion.p
-          className="max-w-4xl font-serif text-4xl font-black leading-[1.02] tracking-[-0.03em] text-balance md:text-5xl"
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '0px 0px -20% 0px' }}
-          transition={{ duration: 1.2, ease: [0.22, 0.61, 0.36, 1] }}
-        >
+    <section id={id} className={`border-t border-rule ${tone === 'soft' ? 'bg-soft' : ''}`}>
+      <div
+        className={`mx-auto grid min-h-[50svh] max-w-6xl items-center gap-10 px-5 py-16 md:min-h-[60svh] md:px-8 ${TRAIL_INSET} ${
+          visual ? 'lg:grid-cols-2' : ''
+        }`}
+      >
+        <p className="max-w-3xl text-4xl font-extrabold leading-[1.08] tracking-[-0.022em] text-balance text-ink md:text-5xl">
           {children}
-        </motion.p>
+        </p>
+        {visual}
       </div>
     </section>
   )

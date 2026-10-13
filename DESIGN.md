@@ -1,109 +1,123 @@
 # Wandering Detection: Design Language
 
 ## Visual Theme
-**loud, warm, human: a forest-and-lime poster with a grandfather at its heart.**
-A student-built awareness site for families of people with dementia. Deep forest green carries the text and the dark bands; one electric lime acts as the only action color. Display type is Inter at weight 900, tightly tracked, shouted. Everything is flat: pill buttons, hairlines, soft green bands, no shadows, no gradients. The mascot is a cartoon grandfather (glasses, white hair, moustache) in place of any globe or stock imagery.
-Influence: Wise's style reference (forest ink + lime voltage, pill shapes, block display type), adapted to a care context.
+**The neighbourhood map: a walking map, one usual route, and the moment someone strays from it.**
+A student-built awareness site for families of people with dementia, and for the faculty who assess it. Everything in the subject is about routes, so the site borrows the vernacular of a walking map: cool map paper, faint contour lines, a park-green usual route, and one footpath-magenta line that appears only where someone strays or is noticed. The hero *is* the walk (the interactive WalkDemo). The rest of the page is one walk too: a trail runs down the left gutter, each section is a stop on it, it strays once (at the "Everyone moves differently" interlude), is noticed, and ends at home beside the Get involved band.
+Legibility for older readers comes before style: 19px body, high contrast, a typeface built for low vision.
 
 ## Color Palette
-Defined in `src/index.css` in two tiers. **Primitives** (`--palette-<hue>-<step>`, e.g. `--palette-lime-400`) hold the raw values and are never used by components. **Semantic** tokens (`--color-paper`, `--color-lime`, ...) point at primitives and are the only colors components use. The site always opens in **light**; dark mode re-points the same semantic tokens at other primitives and is available only via `data-theme="dark"` on `<html>` (it does not follow the system setting).
+Defined in `src/index.css` in two tiers. **Primitives** (`--palette-<hue>-<step>`) hold raw values and are never used by components. **Semantic** tokens (`--color-paper`, `--color-stray`, ...) are the only colors components use. The site always opens in **light**; dark mode re-points the same semantic tokens and is available only via `data-theme="dark"` on `<html>`.
 
 | Token | Light | Dark | Role |
 |-------|-------|------|------|
-| `paper` | #FFFFFF | #0B1A00 | Page |
-| `soft` | #E2F6D5 (linen mist) | #163300 | Light green band, hover, image slot, slider track |
-| `rule` | #E8EBE6 (fog) | #2A4A10 | Hairlines and card borders |
-| `body` | #454745 (charcoal) | #D6DDD0 | Paragraph text (9.7:1 on paper) |
-| `muted` | #6A6C6A (slate) | #A9B0A6 | Secondary text (5.3:1 on paper, 4.6:1 on soft) |
-| `ink` | #163300 (forest ink) | #F1F7EC | Headings, pull quotes and outlines |
-| `care` | #054D28 (spruce) | #9FE870 | Accent for text, strokes, markers, the cardigan |
-| `lime` | #9FE870 | #9FE870 | **The action color**: CTA fills, active nav pill, slider thumb, headline on dark |
-| `on-lime` | #163300 | #163300 | Text on a lime fill (9.5:1) in both modes |
-| `trust` | #163300 | #054D28 | The dark band |
-| `on-trust` | #FFFFFF | #FFFFFF | Text on the band |
-
-Status tokens (`success`, `warning`, `danger`, `info` = Signal Blue #0B4C72, each with a `-soft` surface) exist but are unused; pair them with an icon or a word, never color alone.
-**Lime is never text on a light background** (1.5:1). It is a fill, or text only on `trust` / dark mode.
+| `paper` | #F3F5F2 map paper | #0F1820 | Page |
+| `soft` | #E4EBE3 | #172431 | Tinted band, hover, image slot |
+| `rule` | #D3DCD2 | #2B3B4A | Hairlines, the trail ahead |
+| `body` / `ink` | #1B2B3A night ink (13.2:1) | #EAF0F2 (15.6:1) | Paragraphs and headings |
+| `muted` | #4F5D69 (6.2:1 paper, 5.6:1 soft) | #A9B6C1 (8.7:1) | Secondary text |
+| `route` | #2F6E4E park green (5.5:1) | #7CC29B (8.6:1) | The usual route, calm states, stop markers, links on hover |
+| `route-soft` | #CFE3D4 | #1D3A2B | The park inside the usual route; the "Our system" row |
+| `stray` | #C2185B footpath magenta (5.4:1) | #FF7FAE (7.6:1) | **Only** where something strays or is noticed (including the "6 in 10" people who wander), the emergency line, and the one primary button per view. Never a focus ring |
+| `stray-soft` | #F9E1EA | #3D1426 | The explainable-alert node |
+| `on-stray` | #FFFFFF (5.9:1) | #0F1820 | Text on a stray fill |
+| `contour` | #D7CDB5 | #3A3A2E | Decorative contour lines. **Never text** (1.4:1) |
+| `trust` / `on-trust` | #1B2B3A / #F3F5F2 | #172431 / #EAF0F2 | The dark Get involved band |
 
 ## Typography
-**Family:** Inter only (400, 500, 600, 700, 900), from Google Fonts. The proprietary Wise Sans is replaced by Inter Black.
-**Scale (from the Wise reference), as Tailwind `--text-*` tokens with line height and tracking:**
+- **Atkinson Hyperlegible Next** (400, 700, 800), from the Braille Institute, for all reading text and headlines. Headlines are 800 with tight tracking (-0.02 to -0.03em). Body is 400 at 19px.
+- **Overpass** (700, 800), from road-sign lettering, **only** for wayfinding marks: map labels ("Usual route", "Home", "Noticed early"), the walk clock, step markers, the trail's "Noticed", registration numbers. Use the `.sign` class or `fontFamily: var(--font-sign)` in SVG.
 
-| Step | Size | Line height | Tracking | Used for |
-|------|------|-------------|----------|----------|
-| sm | 14px | 1.55 | -0.005em | Small labels, nav on mobile |
-| base | 16px | 1.5 | -0.006em | Captions |
-| lg | 18px | 1.5 | -0.007em | **Body** |
-| xl | 20px | 1.4 | -0.006em | Hero tagline |
-| 2xl | 25px | 1.3 | -0.009em | Row titles, lede minimum |
-| 3xl | 36px | 1.25 | -0.011em | Lede maximum, mobile pull quotes |
-| 4xl | 45px | 1.1 | -0.011em | Section heading minimum, hero on mobile, pull quotes |
-| 5xl | 61px | 1.1 | -0.015em | Section heading maximum, hero, interludes, involve headline |
-| 6xl | 89px | 0.85 | -0.03em | Emphasised heading (the story section) |
-| 7xl | 105px | 0.85 | -0.03em | Display (reserved, unused so far) |
+**Scale** (classical, Bringhurst), as Tailwind `--text-*` tokens:
 
-- **Display / headings:** weight 900, tracking -0.03em, forest ink. `.h2` is clamp(4xl, 4.2vw, 5xl).
-- **Ledes:** weight 500 (`.lede`). **Paragraphs:** weight 400, charcoal.
-- Headings, pull quotes and `h1`-`h3` use `ink`; paragraphs use `body`. Set in the base layer so utilities such as `text-lime` still win.
+| Step | Size | Line height | Used for |
+|------|------|-------------|----------|
+| sm | 15px | 1.5 | Step markers, small labels |
+| base | 17px | 1.5 | Captions, sources, footer |
+| lg | 19px | 1.6 | **Body** |
+| xl | 21px | 1.45 | Hero tagline, objectives, emergency line |
+| 2xl | 24px | 1.3 | Row titles, lede minimum |
+| 3xl | 30px | 1.2 | Lede maximum, pull quotes on mobile |
+| 4xl | 40px | 1.08 | Section heading minimum, interludes on mobile |
+| 5xl | 54px | 1.02 | Section heading maximum, interludes |
+| 6xl | 72px | 0.98 | Emphasised heading (the story section) |
+
+`.h2` is clamp(4xl, 4vw, 5xl), weight 800. `.lede` is clamp(2xl, 2.2vw, 3xl), weight 400.
 
 ## Components
-| Component | Hierarchy | Purpose | Key variants |
-|-----------|-----------|---------|--------------|
-| Button (`Button.jsx`) | Primitive | The one call-to-action; always a pill | variant: solid (lime) / outline; tone: default / onTrust; size: md / lg |
-| Grandpa (`Grandpa.jsx`) | Primitive | The mascot: the team's own reference illustration, cut out as a circle (`public/images/grandpa.png`). Already includes the lime disc, so it is placed directly, never inside another disc | none |
-| Orbit (`Orbit.jsx`) | Pattern | The hero centrepiece: the mascot large, with six small routine items (reading glasses, mug, family photo, book, stopwatch, a friendly pink brain) circling him in faked 3D; has a pause control | playing / paused / reduced-motion still |
-| Section (`ui.jsx`) | Component | Heading + content shell with a hairline top rule | tone: plain / soft; emphasis: off / on |
-| Interlude | Component | One display sentence given a full pause | tone: plain / soft |
-| Navbar | Pattern | Segmented pill nav (active = lime), outlined CTA, lime scroll-progress line | desktop / mobile menu |
-| WalkDemo (`WalkDemo.jsx`) | Pattern | Grandpa walks the route; the usual route is drawn as a road (dark edge, lime surface, dashed centre line, a park with trees and a house); pill slider and Play/Pause. Lives in its own "Watch one walk" section right after the hero | playing / paused / noticed / home |
-| Pill slider (`.pill-range`) | Primitive | Filled track (care) with a lime thumb | none |
-| Story section | Pattern | Why the team started this: lede, paragraphs, large rounded quote band | none |
-| Stat figure | Component | Sourced statistic with link; "6 in 10" lime figures | lead / grid |
-| Comparison table | Pattern | Tools vs. ours | table (md+) / stacked list |
-| Pipeline diagram | Pattern | How-it-works flow; the output node and travelling dot are lime | process / decision / end |
-| Step timeline | Component | Methodology, roadmap | vertical / horizontal |
-| Hardware card | Component | Photo or line-art in a 10px-radius slot | photo / SVG fallback |
-| Involve band | Pattern | CTA on `trust`, lime headline, grandpa in a lime disc | none |
+| Component | Purpose | Variants |
+|-----------|---------|----------|
+| Button (`Button.jsx`) | The one call-to-action, shaped like a small sign (6px corners) | variant: solid (stray) / outline; tone: default / onTrust; size: md / lg |
+| Hero (`Hero.jsx`) | Headline and actions left (5 cols); the walk map right (7 cols); contour paper behind | none |
+| WalkDemo (`WalkDemo.jsx`) | The walk: park-green usual route, today's line in ink that turns magenta the moment it leaves the route, the "Noticed early" ring, Home. Plays once on load; slider and Play/Pause | playing / paused / leaving / noticed / home |
+| Contours (`Contours.jsx`) | Static topographic lines, the map's paper | none |
+| Trail (`Trail.jsx`) | Page-long route in the left gutter (lg+), walked as you scroll; one magenta detour at `strayAt`; a house at `homeAt` | reduced motion: shown whole |
+| Section (`ui.jsx`) | Heading + content, a stop marker on the trail, `TRAIL_INSET` gutter | tone: plain / soft; emphasis |
+| Interlude | One sentence given a full pause; no entrance animation | tone: plain / soft; optional `id` |
+| PullQuote (in `Sections.jsx`) | Large quote with a park-green left rule; no box | none |
+| Navbar | Logo mark (green route, magenta stray), plain text links (active = bold ink with a green underline), outlined CTA, green scroll line | desktop / mobile menu |
+| Pipeline diagram (`Architecture.jsx`) | How it works; the alert and explainable-alert nodes are magenta, the travelling packet is green and stops at the top of the last node. Tap or hover a node to read it; clicking keeps it selected | process / decision / end |
+| Step timeline | Roadmap: the only numbered list, because it is a sequence | vertical / horizontal |
+| RoutineOrbit (`RoutineOrbit.jsx`) | The showpiece: mascot centred, six routine items (side-view brain, glasses, mug, photo, book, stopwatch) circling in faked 3D; one drifts off its orbit in turn, gets a magenta ring and the fixed label "Off its usual orbit". Beside the closing interlude | playing / paused / reduced-motion still |
+| Grandpa (`Grandpa.jsx`) | The mascot, the team's own illustration (`public/images/grandpa.png`, lime disc baked in). He is the walker on the map and waves from the Involve band | none |
 
 ## Layout
-**Grid:** single column in a `max-w-6xl` container (1152px); 12-col in the hero, involve band and footer.
-**Gutters:** px-5, md:px-8. **Section padding:** py-16, md:py-24.
-**Base unit:** 4px. **Breakpoints:** Tailwind defaults; the nav collapses below lg (1024).
+- `max-w-6xl` container (1152px), gutters px-5 / md:px-8, section padding py-16 / md:py-24.
+- On lg+ sections inside the Trail are inset by `TRAIL_INSET` (`lg:pl-36`) so the trail and its detour fit in the gutter. The trail runs at `TRAIL_X` (40px) from the content box's left edge.
+- Text is left-aligned throughout. Lines stay under ~70 characters (`max-w-2xl`/`max-w-3xl`).
 
 ## Shape and depth
-Flat. **Pills (9999px)** for buttons, nav segments, tags and the slider. **`rounded-card` (10px)** for image slots and inputs, **`rounded-card-lg` (28px)** for large cards (the walk card, the quote bands). The Wise source also lists shadow tokens; they are deliberately not adopted. Hairlines (`rule`) and `soft` bands separate content; the dark `trust` band creates rhythm. No shadows, no gradients, no blur.
+Flat. 6px (`rounded-card`) for buttons and image slots, 10px (`rounded-card-lg`) for the map. Pills only for dots and the slider. No shadows, no gradients, no blur, no boxed cards: content sits on the paper, separated by hairlines and tinted bands.
+
+## Motion
+Three earned moments, plus one deliberate showpiece. The hero walk plays once on load (and on request). The trail is walked as you scroll and strays once. The showpiece is the routine orbit beside the closing line: the mascot with six routine items circling him, one drifting off its orbit every 11s and being noticed, over a faint twinkle field. No per-section fade-ups. The pipeline's draw-in and travelling packet are tied to scroll. Everything respects `prefers-reduced-motion`; the orbit has a Pause button that stops all of its motion, and runs only while on screen.
 
 ## Do's and Don'ts
 ### Do
-- Use token colors only; components never reference `--palette-*`.
-- Use lime as the single action color: one lime fill per view is usually enough.
-- Keep text at AA or better (`ink`/`muted` on `paper`/`soft`, `on-lime` on `lime`, `on-trust` on `trust`).
-- Keep display type at weight 900 and tight; do not soften it.
-- Use `<Button>` for calls to action, `<Grandpa>` for the mascot; respect `prefers-reduced-motion`.
+- Use semantic tokens only; never `--palette-*` in components.
+- Keep magenta meaning "strayed / noticed / act now". One solid magenta button per view.
+- Keep body at 19px and text at AA or better. Focus rings are ink.
+- Use Overpass only for wayfinding marks.
 ### Don't
-- Put lime text on a light background, or two filled buttons side by side.
-- Add shadows, gradients, decorative blur, or square-cornered buttons.
-- Use stock illustration or a globe; the mascot is the grandfather.
+- Use magenta as decoration, or contour as text.
+- Add shadows, gradients, boxed cards, all-caps labels, or numbering on lists that are not sequences.
 - Show real patient data or imply clinical validation.
+- Write unbuilt capability in the present tense ("learns", "alerts"): say "designed to", "plan", or "example".
+- State a fact the team has not confirmed (data storage, access, approvals). Say it is not settled yet.
 
 ## Responsive
-Mobile-first. The nav collapses to a Menu pill below lg; the hero stacks (headline, then the walk card); tables become stacked lists below md; the involve band hides the large grandpa below lg.
+Mobile-first. The nav collapses to a Menu button below lg; the hero stacks (headline, then the map); the trail and stop markers appear only on lg+; tables become stacked lists below md; the Involve band hides the large grandpa below lg.
 
 ## Agent Prompt Guide
-- Colors come from the semantic tokens in `src/index.css`; no new hex values, and components never use `--palette-*`.
-- Display is Inter 900 with tight tracking; body is Inter 400 at 18px in charcoal; headings are forest ink.
-- Sizes come from the Wise scale tokens (`text-sm` ... `text-7xl`); no arbitrary `text-[..]` except in SVG user units.
-- Pills for actions, 28px radius for large cards, no shadows.
-- One action color: lime fill with `on-lime` text. Accent text is `care`.
-- The mascot is a raster picture (`public/images/grandpa.png`); orbiter icons in `Orbit.jsx` use fixed illustration colours (forest outline, lime and linen fills, pink only for the brain).
+- Colors from the semantic tokens in `src/index.css`; no new hex values.
+- Atkinson Hyperlegible Next 800 for headings, 400 at 19px for body; Overpass for map labels only.
+- Magenta (`stray`) only for strays, alerts, the emergency line and the primary action.
 - Honest tone: a student prototype, not a medical device. Never overstate.
+- Dark mode is reachable only by setting `data-theme="dark"` on `<html>`; there is no toggle.
 
 ## Design System Version
-**v2.5.0**: the usual route is drawn as a road.
+**v3.2.0**: the neighbourhood map, with the routine orbit.
 - Token tiers: primitives (`--palette-*`) → semantic (`--color-*`).
 - Versioning: Major = a semantic token is renamed or removed, or a component prop is removed. Minor = new token, variant or component. Patch = value tweaks.
 
 ### Changelog
+#### v3.2.0
+- Added: `RoutineOrbit` (the orbit showpiece), `Interlude` `visual` prop, CSS ambience (`.spark`, `.ring-slow`, `.bob`) that pauses with the Pause button and when off screen.
+- Changed: `WalkDemo` writes its position straight to the SVG and slider each frame (no per-frame React re-render); the pause label is a fixed "Pause animation" with a pressed state, and the control is absent under reduced motion.
+- Changed: the brain icon is a side-view brain (cerebrum with folds, cerebellum, stem) instead of a smooth blob with a face.
+#### v3.1.0
+- Changed: copy pass from the three-reviewer critique. Hero now carries a status line ("A student prototype. Not for sale yet") and the emergency line. Unbuilt capability is written as design or plan. The ethics storage line and the volunteer call say plainly what is not settled or open yet. Example alert text now matches what the map shows ("off the usual route, and slower than usual for 2pm") and is labelled as an example everywhere, including the live status.
+- Changed: statistics cut from eight to four, with each figure pulled out at display size and one source line per source (Alzheimer's Association figures labelled as US guidance). The literature table's third column is "What it cannot do", and the "Our system" row states a real limit.
+- Changed: ethics and team sit before the closing ask, so the trail now ends at home beside the Get involved band; stop markers draw only inside `Trail` (`TrailContext`).
+- Changed: pipeline nodes enlarged; the packet ends at the top of the last node; click keeps a node selected instead of toggling it off; "YES/NO" are "Yes/No"; focus ring is ink.
+- Changed: walk map labels enlarged so they stay legible when the map scales down; the example alert detail moved to real text beneath the map. Navbar has no active item over the hero, Escape closes the mobile menu, no backdrop blur. Hero contours sit behind the map only.
+- Removed: the Methodology section (it restated the pipeline; its unique steps are in the roadmap). `methodology` is still exported from `content.js`, unused.
+#### v3.0.0
+- Changed: palette is map paper, night ink, park green and footpath magenta (`route`, `route-soft`, `stray`, `stray-soft`, `on-stray`, `contour` added; `care`, `lime`, `on-lime` and the unused status colours removed).
+- Changed: type is Atkinson Hyperlegible Next (reading and headlines) with Overpass for wayfinding marks; body is 19px on a classical scale.
+- Changed: the walk demo is the hero; `Orbit` is removed. Nav "Why" covers only `#problem`.
+- Added: `Trail`, `Contours`, `StopMarker`, `TRAIL_INSET`/`TRAIL_X`, `PullQuote`.
+- Changed: `Button` is a 6px sign (magenta solid), not a pill; the Navbar is plain links.
+- Removed: the brief Dala-style particle field, word-mask headline reveals and per-section fade-ups (never shipped in a commit).
 #### v2.5.0
 - Changed: the walk demo's usual route is a road (ink edge, lime surface, dashed centre line) around a green park with fluffy trees, the house as the single Home marker (with its label and a footpath) beside the road start and finish, and a "Usual route" tag, instead of a grey dashed blob.
 #### v2.4.0

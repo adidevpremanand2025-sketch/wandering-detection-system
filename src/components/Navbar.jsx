@@ -10,32 +10,53 @@ export default function Navbar() {
 
   // Watch every section a nav item covers, so a grouped item stays lit across all of them.
   useEffect(() => {
-    const els = nav.flatMap((n) => n.ids).map((id) => document.getElementById(id)).filter(Boolean)
+    // the hero (#top) is observed too, so nothing reads as "active" while it is on screen
+    const els = ['top', ...nav.flatMap((n) => n.ids)].map((id) => document.getElementById(id)).filter(Boolean)
     const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id === 'top' ? '' : e.target.id)),
       { rootMargin: '-40% 0px -55% 0px' }
     )
     els.forEach((el) => io.observe(el))
     return () => io.disconnect()
   }, [])
 
+  // Escape closes the mobile menu and hands focus back to its button.
+  useEffect(() => {
+    if (!open) return undefined
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        document.getElementById('menu-button')?.focus()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
   const current = (n) => n.ids.includes(active)
   const links = nav.filter((n) => !n.cta)
   const cta = nav.find((n) => n.cta)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-rule bg-paper/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-rule bg-paper">
       <nav aria-label="Primary" className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 md:px-8">
-        <a href="#top" className="whitespace-nowrap font-serif text-xl font-black tracking-tight text-ink">{site.shortTitle}</a>
-        <div className="hidden items-center gap-3 lg:flex">
-          <ul className="flex items-center gap-1 rounded-full bg-soft p-1">
+        <a href="#top" className="flex items-center gap-2.5 whitespace-nowrap text-xl font-extrabold tracking-[-0.01em] text-ink">
+          <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M6 24 C4 14 10 6 18 8" fill="none" stroke="var(--color-route)" strokeWidth="3" strokeLinecap="round" />
+            <path d="M18 8 C26 10 28 18 24 22" fill="none" stroke="var(--color-stray)" strokeWidth="3" strokeLinecap="round" />
+            <circle cx="24" cy="22" r="4" fill="none" stroke="var(--color-stray)" strokeWidth="2" />
+          </svg>
+          {site.shortTitle}
+        </a>
+        <div className="hidden items-center gap-6 lg:flex">
+          <ul className="flex items-center gap-1">
             {links.map((n) => (
               <li key={n.label}>
                 <a
                   href={`#${n.ids[0]}`}
                   aria-current={current(n) ? 'true' : undefined}
-                  className={`inline-block whitespace-nowrap rounded-full px-4 py-2 text-base font-medium transition-colors ${
-                    current(n) ? 'bg-lime font-semibold text-on-lime' : 'text-ink hover:bg-paper'
+                  className={`inline-block whitespace-nowrap px-3 py-2 text-base underline-offset-[10px] transition-colors ${
+                    current(n) ? 'font-bold text-ink underline decoration-route decoration-[3px]' : 'text-muted hover:text-ink'
                   }`}
                 >
                   {n.label}
@@ -47,7 +68,8 @@ export default function Navbar() {
         </div>
         <button
           type="button"
-          className="-mr-2 rounded-full border border-ink px-4 py-2 text-sm font-semibold text-ink lg:hidden"
+          id="menu-button"
+          className="-mr-2 rounded-card border-2 border-ink px-4 py-2 text-sm font-bold text-ink lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((o) => !o)}
@@ -63,7 +85,7 @@ export default function Navbar() {
                 href={`#${n.ids[0]}`}
                 onClick={() => setOpen(false)}
                 aria-current={current(n) ? 'true' : undefined}
-                className={`block border-b border-rule py-3.5 text-base last:border-0 ${n.cta ? 'font-bold text-care' : current(n) ? 'font-semibold text-care' : 'text-ink'}`}
+                className={`block border-b border-rule py-3.5 text-base last:border-0 ${n.cta ? 'font-bold text-stray' : current(n) ? 'font-bold text-route' : 'text-ink'}`}
               >
                 {n.label}
               </a>
@@ -72,7 +94,7 @@ export default function Navbar() {
         </ul>
       )}
       {/* how far down the page you are */}
-      <motion.div aria-hidden="true" className="absolute bottom-[-1px] left-0 h-1 w-full origin-left bg-lime" style={{ scaleX: scrollYProgress }} />
+      <motion.div aria-hidden="true" className="absolute bottom-[-1px] left-0 h-[3px] w-full origin-left bg-route" style={{ scaleX: scrollYProgress }} />
     </header>
   )
 }

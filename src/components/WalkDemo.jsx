@@ -19,12 +19,22 @@ const HOME_AT = 0.985
 const STATUS = {
   usual: 'On the usual route',
   leaving: 'Leaving the usual route',
-  alert: 'Noticed early. Caregiver alerted.',
+  alert: 'Example: noticed early, caregiver alerted.',
   home: 'Back home',
 }
 
 // Keeps labels readable where they cross other lines.
-const HALO = { stroke: 'var(--color-paper)', strokeWidth: 4, paintOrder: 'stroke', strokeLinejoin: 'round' }
+const HALO = { stroke: 'var(--color-paper)', strokeWidth: 5, paintOrder: 'stroke', strokeLinejoin: 'round' }
+// Map labels are set in the signage face.
+const SIGN = { fontFamily: 'var(--font-sign)' }
+
+// Faint contour lines on the map's paper.
+const MAP_CONTOURS = [
+  'M-20 70 C 80 40, 180 100, 300 60 S 480 20, 580 50',
+  'M-20 110 C 90 80, 190 140, 310 100 S 490 60, 580 90',
+  'M-20 500 C 60 470, 160 520, 260 495 S 440 450, 580 480',
+  'M430 300 C 470 270, 540 285, 545 330 S 500 400, 455 385 S 400 330, 430 300 Z',
+]
 
 function clock(p) {
   const m = Math.round(START_MIN + p * SPAN_MIN)
@@ -45,25 +55,51 @@ export default function WalkDemo() {
   const leaveRef = useRef(null)
   const flagRef = useRef(null)
   const walkerRef = useRef(null)
+  const strayRef = useRef(null)
+  const sliderRef = useRef(null)
+  const clockRef = useRef(null)
   const playback = useRef(null)
-  const [p, setP] = useState(reduce ? 1 : 0)
+  // The walk's position lives in a ref and is written straight to the SVG and the slider every frame.
+  // React state holds only what changes a few times per walk: the phase, and whether it has finished.
+  const pRef = useRef(reduce ? 1 : 0)
+  const marksRef = useRef({ leave: 0.45, flag: 0.6 })
+  const lenRef = useRef(1)
   const [marks, setMarks] = useState({ leave: 0.45, flag: 0.6, flagPt: { x: 500, y: 110 } })
+  const [phase, setPhase] = useState(reduce ? 'home' : 'usual')
+  const [done, setDone] = useState(Boolean(reduce))
   const [playing, setPlaying] = useState(false)
 
-  // Measure where "leaving" and "noticed" fall along today's walk.
+  // Put everything at position v (0 to 1): the ink line, the magenta stretch, grandpa, slider, clock, phase.
+  const apply = (v) => {
+    pRef.current = v
+    const { leave, flag } = marksRef.current
+    todayRef.current.setAttribute('stroke-dashoffset', String(1 - v))
+    const stray = strayRef.current
+    stray.setAttribute('opacity', v > leave ? '1' : '0')
+    stray.setAttribute('stroke-dasharray', `0 ${leave} ${Math.max(0, v - leave)} 2`)
+    const pt = todayRef.current.getPointAtLength(lenRef.current * v)
+    walkerRef.current.setAttribute('transform', `translate(${pt.x} ${pt.y})`)
+    const next = phaseOf(v, { leave, flag })
+    const slider = sliderRef.current
+    slider.value = String(Math.round(v * 1000))
+    slider.style.setProperty('--p', `${v * 100}%`)
+    slider.setAttribute('aria-valuetext', `${clock(v)}, ${STATUS[next]}`)
+    clockRef.current.textContent = clock(v)
+    setPhase(next)
+    setDone(v >= 0.999)
+  }
+
+  // Measure where "leaving" and "noticed" fall along today's walk, then draw the starting position.
   useLayoutEffect(() => {
     const total = todayRef.current.getTotalLength()
     const flagLen = flagRef.current.getTotalLength()
     const pt = todayRef.current.getPointAtLength(flagLen)
-    setMarks({ leave: leaveRef.current.getTotalLength() / total, flag: flagLen / total, flagPt: { x: pt.x, y: pt.y } })
+    lenRef.current = total
+    marksRef.current = { leave: leaveRef.current.getTotalLength() / total, flag: flagLen / total }
+    setMarks({ ...marksRef.current, flagPt: { x: pt.x, y: pt.y } })
+    apply(pRef.current)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // Move grandpa to the current point.
-  useLayoutEffect(() => {
-    const path = todayRef.current
-    const pt = path.getPointAtLength(path.getTotalLength() * p)
-    walkerRef.current.setAttribute('transform', `translate(${pt.x} ${pt.y})`)
-  }, [p])
 
   const stop = () => {
     playback.current?.stop()
@@ -77,7 +113,7 @@ export default function WalkDemo() {
     playback.current = animate(start, 1, {
       duration: PLAY_SECONDS * (1 - start),
       ease: 'linear',
-      onUpdate: setP,
+      onUpdate: apply,
       onComplete: () => setPlaying(false),
     })
   }
@@ -93,65 +129,67 @@ export default function WalkDemo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const phase = phaseOf(p, marks)
   const noticed = phase === 'alert' || phase === 'home'
   const { flagPt } = marks
 
   return (
-    <figure className="w-full rounded-card-lg border border-rule bg-paper p-4 md:p-7">
+    <figure className="w-full rounded-card-lg border border-rule bg-paper p-4 md:p-6">
       <svg
         viewBox="0 0 560 520"
         role="img"
         aria-label="Illustration of one walk. A shaded loop shows a cartoon grandfather's usual route from home. Today's walk follows it, strays, is noticed early with an example alert, and returns home."
         className="h-auto w-full overflow-visible"
       >
+        <g aria-hidden="true" fill="none" stroke="var(--color-contour)" strokeWidth="1.25">
+          {MAP_CONTOURS.map((d) => <path key={d} d={d} />)}
+        </g>
 
         {/* measuring paths, never drawn */}
         <path ref={leaveRef} d={TO_LEAVE} fill="none" stroke="none" />
         <path ref={flagRef} d={TO_FLAG} fill="none" stroke="none" />
 
-        {/* the usual route, drawn as a road: park inside, dark edge, lime surface, dashed centre line */}
-        <path d={USUAL} fill="var(--color-soft)" />
+        {/* the usual route, drawn as a park path: green inside, a green road, a dashed centre line */}
+        <path d={USUAL} fill="var(--color-route-soft)" />
         <g aria-hidden="true">
-          {/* trees and a bench inside the loop */}
+          {/* trees inside the loop */}
           {[[190, 348], [330, 262], [322, 345], [236, 232]].map(([x, y]) => (
             <g key={`${x}-${y}`} transform={`translate(${x} ${y})`}>
-              <rect x="-3" y="-2" width="6" height="18" rx="2" fill="var(--color-ink)" />
-              {/* fluffy canopy: an ink silhouette first, then the green on top, so no inner outlines */}
-              {[[-9, -4, 10], [9, -4, 10], [0, -15, 11], [0, -2, 11]].map(([cx, cy, r]) => (
-                <circle key={`o${cx}${cy}`} cx={cx} cy={cy} r={r + 2} fill="var(--color-ink)" />
+              <rect x="-2.5" y="-2" width="5" height="16" rx="2" fill="var(--color-ink)" />
+              {[[-8, -4, 9], [8, -4, 9], [0, -14, 10], [0, -2, 10]].map(([cx, cy, r]) => (
+                <circle key={`f${cx}${cy}`} cx={cx} cy={cy} r={r} fill="var(--color-route)" />
               ))}
-              {[[-9, -4, 10], [9, -4, 10], [0, -15, 11], [0, -2, 11]].map(([cx, cy, r]) => (
-                <circle key={`f${cx}${cy}`} cx={cx} cy={cy} r={r} fill="var(--color-care)" />
-              ))}
-              <circle cx="-5" cy="-14" r="3.2" fill="var(--color-lime)" opacity="0.85" />
-              <circle cx="7" cy="-6" r="2.4" fill="var(--color-lime)" opacity="0.7" />
             </g>
           ))}
         </g>
-        <path d={USUAL} fill="none" stroke="var(--color-ink)" strokeWidth="34" strokeLinejoin="round" />
-        <path d={USUAL} fill="none" stroke="var(--color-lime)" strokeWidth="26" strokeLinejoin="round" />
+        <path d={USUAL} fill="none" stroke="var(--color-route)" strokeWidth="22" strokeLinejoin="round" />
         <path d={USUAL} fill="none" stroke="var(--color-paper)" strokeWidth="2.5" strokeDasharray="9 11" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
-        <path d={TODAY} fill="none" stroke="var(--color-rule)" strokeWidth="3" strokeDasharray="2 8" strokeLinecap="round" />
+        <path d={TODAY} fill="none" stroke="var(--color-muted)" strokeWidth="2.5" strokeDasharray="2 8" strokeLinecap="round" opacity="0.6" />
+        {/* today, walked so far: ink while on the usual route... */}
+        {/* (stroke-dashoffset and the magenta dasharray are written by apply(), never by React) */}
         <path
-          ref={todayRef} d={TODAY} pathLength="1" fill="none" stroke="var(--color-care)" strokeWidth="5" strokeLinecap="round"
-          strokeDasharray="1 1" strokeDashoffset={1 - p}
+          ref={todayRef} d={TODAY} pathLength="1" fill="none" stroke="var(--color-ink)" strokeWidth="5" strokeLinecap="round"
+          strokeDasharray="1 1"
+        />
+        {/* ...and footpath magenta from the moment it leaves it */}
+        <path
+          ref={strayRef} d={TODAY} pathLength="1" fill="none" stroke="var(--color-stray)" strokeWidth="5" strokeLinecap="round"
+          opacity="0"
         />
 
-        <g aria-hidden="true" transform="translate(272 292)">
-          <rect x="-66" y="-17" width="132" height="34" rx="17" fill="var(--color-paper)" stroke="var(--color-ink)" strokeWidth="2" />
-          <text y="6" textAnchor="middle" fontSize="16" fontWeight="700" fill="var(--color-ink)">Usual route</text>
+        <g aria-hidden="true" transform="translate(272 292)" style={SIGN}>
+          <rect x="-82" y="-20" width="164" height="40" rx="6" fill="var(--color-paper)" stroke="var(--color-route)" strokeWidth="2.5" />
+          <text y="8" textAnchor="middle" fontSize="23" fontWeight="800" fill="var(--color-route)">Usual route</text>
         </g>
 
         {/* home */}
         <path d="M124 408 L94 436" aria-hidden="true" fill="none" stroke="var(--color-ink)" strokeWidth="3" strokeDasharray="2 7" strokeLinecap="round" />
         <g aria-hidden="true" transform="translate(70 462)">
-          <motion.circle r="34" fill="var(--color-lime)" initial={false} animate={{ opacity: phase === 'home' ? 0.5 : 0 }} transition={{ duration: 1 }} />
+          <motion.circle r="34" fill="var(--color-route-soft)" initial={false} animate={{ opacity: phase === 'home' ? 1 : 0 }} transition={{ duration: 1 }} />
           <g transform="translate(0 -3) scale(1.35)">
             <path d="M-13 12 V-4 L0 -16 L13 -4 V12 Z" fill="var(--color-paper)" stroke="var(--color-ink)" strokeWidth="2.5" strokeLinejoin="round" />
-            <rect x="-4" y="1" width="8" height="11" rx="1.5" fill="var(--color-lime)" stroke="var(--color-ink)" strokeWidth="2" />
+            <rect x="-4" y="1" width="8" height="11" rx="1.5" fill="var(--color-route)" />
           </g>
-          <text y="52" textAnchor="middle" fontSize="22" fontWeight="800" fill="var(--color-ink)" {...HALO}>Home</text>
+          <text y="62" textAnchor="middle" fontSize="27" fontWeight="800" fill="var(--color-ink)" style={SIGN} {...HALO}>Home</text>
         </g>
 
         {/* the moment it is noticed */}
@@ -161,15 +199,13 @@ export default function WalkDemo() {
               key="noticed" aria-hidden="true"
               initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}
             >
-              <circle cx={flagPt.x} cy={flagPt.y} r="30" fill="none" stroke="var(--color-lime)" strokeWidth="5" />
+              <circle cx={flagPt.x} cy={flagPt.y} r="28" fill="none" stroke="var(--color-stray)" strokeWidth="4" />
               <g textAnchor="end" {...HALO}>
-                <text x="470" y="26" fontSize="26" fontWeight="900" fill="var(--color-ink)">Noticed early</text>
-                <text x="470" y="50" fontSize="16" fontWeight="500" fill="var(--color-muted)">Example alert: movement 3&times; slower</text>
-                <text x="470" y="70" fontSize="16" fontWeight="500" fill="var(--color-muted)">than usual for 2pm</text>
+                <text x="468" y="30" fontSize="30" fontWeight="800" fill="var(--color-stray)" style={SIGN}>Noticed early</text>
               </g>
               {!reduce && (
                 <motion.circle
-                  cx={flagPt.x} cy={flagPt.y} r="30" fill="none" stroke="var(--color-lime)" strokeWidth="4"
+                  cx={flagPt.x} cy={flagPt.y} r="28" fill="none" stroke="var(--color-stray)" strokeWidth="3"
                   style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
                   initial={{ opacity: 0.9, scale: 1 }} animate={{ opacity: 0, scale: 1.9 }} transition={{ duration: 2.2, ease: 'easeOut' }}
                 />
@@ -180,7 +216,8 @@ export default function WalkDemo() {
 
         {/* grandpa, walking his route */}
         <g ref={walkerRef} aria-hidden="true" transform="translate(130 400)">
-          <image href={GRANDPA_SRC} x="-37" y="-37" width="74" height="74" />
+          <circle r="35" fill="none" stroke="var(--color-ink)" strokeWidth="2.5" />
+          <image href={GRANDPA_SRC} x="-34" y="-34" width="68" height="68" />
         </g>
       </svg>
 
@@ -188,33 +225,37 @@ export default function WalkDemo() {
         <Button
           variant="outline"
           className="min-w-[10.5rem]"
-          onClick={playing ? stop : () => play(p)}
+          onClick={playing ? stop : () => play(pRef.current)}
         >
-          {playing ? 'Pause' : p >= 0.999 ? 'Replay the walk' : 'Play the walk'}
+          {playing ? 'Pause' : done ? 'Replay the walk' : 'Play the walk'}
         </Button>
         <div className="flex min-w-[14rem] flex-1 items-center gap-4">
           <label className="flex flex-1 items-center">
             <span className="sr-only">Move through today&rsquo;s walk</span>
             <input
+              ref={sliderRef}
               type="range" min="0" max="1000" step="1"
-              value={Math.round(p * 1000)}
-              onChange={(e) => { stop(); setP(Number(e.target.value) / 1000) }}
-              aria-valuetext={`${clock(p)}, ${STATUS[phase]}`}
+              defaultValue={reduce ? 1000 : 0}
+              onChange={(e) => { stop(); apply(Number(e.target.value) / 1000) }}
               className="pill-range"
-              style={{ '--p': `${p * 100}%` }}
             />
           </label>
-          <span className="w-[4.75rem] shrink-0 text-right font-semibold tabular-nums" aria-hidden="true">{clock(p)}</span>
+          <span ref={clockRef} className="sign w-[4.75rem] shrink-0 text-right tabular-nums" aria-hidden="true" />
         </div>
       </div>
 
-      <p className="mt-4 flex items-center gap-2 font-semibold" aria-live="polite">
+      <p className={`mt-4 flex items-center gap-2 font-bold ${noticed && phase !== 'home' ? 'text-stray' : ''}`} aria-live="polite">
         <span
           aria-hidden="true"
-          className={`h-3 w-3 rounded-full border-2 border-ink ${phase === 'alert' ? 'bg-lime' : phase === 'leaving' ? 'bg-soft' : 'bg-paper'}`}
+          className={`h-3 w-3 rounded-full border-2 ${phase === 'alert' ? 'border-stray bg-stray' : phase === 'leaving' ? 'border-stray bg-paper' : 'border-route bg-route'}`}
         />
         <span>{STATUS[phase]}</span>
       </p>
+      {noticed && (
+        <p className="mt-1 text-base text-muted">
+          Example alert: &ldquo;off the usual route, and slower than usual for 2pm.&rdquo;
+        </p>
+      )}
 
       <figcaption className="mt-3 text-base text-muted">
         Drag the slider to move through the walk. This is an illustration, not real patient data.

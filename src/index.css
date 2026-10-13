@@ -2,126 +2,121 @@
 
 /* Tier 1, primitives: raw values, named by hue and step. Components never use these directly. */
 :root {
+  --palette-paper-50: #F3F5F2;     /* map paper */
+  --palette-sage-100: #E4EBE3;     /* tinted map band */
+  --palette-sage-200: #D3DCD2;     /* hairlines */
+  --palette-park-100: #CFE3D4;     /* usual-route road surface */
+  --palette-park-300: #7CC29B;
+  --palette-park-700: #2F6E4E;     /* park green, the usual route */
+  --palette-park-900: #1D3A2B;
+  --palette-ink-900: #1B2B3A;      /* night ink */
+  --palette-slate-300: #A9B6C1;
+  --palette-slate-600: #4F5D69;
+  --palette-magenta-100: #F9E1EA;
+  --palette-magenta-300: #FF7FAE;
+  --palette-magenta-700: #C2185B;  /* footpath magenta, the stray */
+  --palette-magenta-900: #3D1426;
+  --palette-contour-300: #D7CDB5;  /* contour lines, decoration only */
+  --palette-contour-800: #3A3A2E;
+  --palette-night-950: #0F1820;
+  --palette-night-900: #172431;
+  --palette-night-700: #2B3B4A;
+  --palette-mist-50: #EAF0F2;
   --palette-white: #FFFFFF;
-  --palette-fog-100: #E8EBE6;
-  --palette-linen-100: #E2F6D5;
-  --palette-slate-300: #A9B0A6;
-  --palette-slate-600: #6A6C6A;
-  --palette-charcoal-700: #454745;
-  --palette-mist-200: #D6DDD0;
-  --palette-forest-950: #0B1A00;
-  --palette-forest-900: #163300;
-  --palette-forest-700: #2A4A10;
-  --palette-spruce-800: #054D28;
-  --palette-lime-400: #9FE870;
-  --palette-mist-50: #F1F7EC;
-  --palette-blue-100: #E1ECF6;
-  --palette-blue-300: #7DB7EA;
-  --palette-blue-800: #0B4C72;
-  --palette-blue-900: #112A40;
-  --palette-green-100: #E4F3E8;
-  --palette-green-300: #6FD08C;
-  --palette-green-700: #1B7A3E;
-  --palette-green-900: #12301E;
-  --palette-amber-100: #FFF1D6;
-  --palette-amber-300: #F2C14E;
-  --palette-amber-800: #8A5A00;
-  --palette-amber-900: #33270A;
-  --palette-red-100: #FBE6E4;
-  --palette-red-300: #FF8F85;
-  --palette-red-700: #B3261E;
-  --palette-red-900: #3A1816;
 }
 
-/* Tier 2, semantic: purpose-bound roles. These are the only colors components use (as text-ink, bg-lime...). */
+/* Tier 2, semantic: purpose-bound roles. These are the only colors components use (text-ink, bg-stray...). */
 @theme static {
-  --color-paper: var(--palette-white);
-  --color-soft: var(--palette-linen-100);
-  --color-rule: var(--palette-fog-100);
-  --color-body: var(--palette-charcoal-700);   /* paragraph text; headings use ink */
-  --color-muted: var(--palette-slate-600);
-  --color-ink: var(--palette-forest-900);
-  --color-care: var(--palette-spruce-800);     /* accent for text, strokes, markers */
-  --color-lime: var(--palette-lime-400);       /* the action color: CTA fills, active states, headline on dark */
-  --color-on-lime: var(--palette-forest-900);  /* text on a lime fill, in both modes */
-  --color-trust: var(--palette-forest-900);    /* the dark band */
-  --color-on-trust: var(--palette-white);
-  /* Status colors: pair with an icon or a word, never color alone. */
-  --color-success: var(--palette-green-700);
-  --color-success-soft: var(--palette-green-100);
-  --color-warning: var(--palette-amber-800);
-  --color-warning-soft: var(--palette-amber-100);
-  --color-danger: var(--palette-red-700);
-  --color-danger-soft: var(--palette-red-100);
-  --color-info: var(--palette-blue-800);
-  --color-info-soft: var(--palette-blue-100);
+  --color-paper: var(--palette-paper-50);
+  --color-soft: var(--palette-sage-100);       /* tinted band, hover, image slot */
+  --color-rule: var(--palette-sage-200);       /* hairlines */
+  --color-body: var(--palette-ink-900);        /* paragraph text */
+  --color-ink: var(--palette-ink-900);         /* headings */
+  --color-muted: var(--palette-slate-600);     /* secondary text: 6.2:1 on paper */
+  --color-route: var(--palette-park-700);      /* the usual route, calm states, links: 5.5:1 on paper */
+  --color-route-soft: var(--palette-park-100); /* the road surface of the usual route */
+  --color-stray: var(--palette-magenta-700);   /* ONLY where something strays or is noticed, and the primary action */
+  --color-stray-soft: var(--palette-magenta-100);
+  --color-on-stray: var(--palette-white);      /* 5.9:1 on stray */
+  --color-contour: var(--palette-contour-300); /* decorative contour lines; never text */
+  --color-trust: var(--palette-ink-900);       /* the dark band */
+  --color-on-trust: var(--palette-paper-50);   /* 13.2:1 on the band */
 
-  /* Display and body are both Inter; the display voice is weight 900 with tight tracking. */
-  --font-serif: "Inter", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  /* Atkinson Hyperlegible Next for reading and headlines (built for low-vision readers).
+     Overpass, from road-sign lettering, only for map labels and wayfinding marks. */
+  --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-serif: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-sign: "Overpass", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
 
-  /* Type scale from the Wise reference: 14 / 16 / 18 / 20 / 25 / 36 / 45 / 61 / 89 / 105 px.
-     lg (18px) is the reading size for body copy. Tracking tightens as size grows. */
-  --text-sm: 0.875rem;    --text-sm--line-height: 1.55;   --text-sm--letter-spacing: -0.005em;
-  --text-base: 1rem;      --text-base--line-height: 1.5;  --text-base--letter-spacing: -0.006em;
-  --text-lg: 1.125rem;    --text-lg--line-height: 1.5;    --text-lg--letter-spacing: -0.007em;
-  --text-xl: 1.25rem;     --text-xl--line-height: 1.4;    --text-xl--letter-spacing: -0.006em;
-  --text-2xl: 1.5625rem;  --text-2xl--line-height: 1.3;   --text-2xl--letter-spacing: -0.009em;
-  --text-3xl: 2.25rem;    --text-3xl--line-height: 1.25;  --text-3xl--letter-spacing: -0.011em;
-  --text-4xl: 2.8125rem;  --text-4xl--line-height: 1.1;   --text-4xl--letter-spacing: -0.011em;
-  --text-5xl: 3.8125rem;  --text-5xl--line-height: 1.1;   --text-5xl--letter-spacing: -0.015em;
-  --text-6xl: 5.5625rem;  --text-6xl--line-height: 0.85;  --text-6xl--letter-spacing: -0.03em;
-  --text-7xl: 6.5625rem;  --text-7xl--line-height: 0.85;  --text-7xl--letter-spacing: -0.03em;
+  /* Classical scale (Bringhurst): 15 / 17 / 19 / 21 / 24 / 30 / 40 / 54 / 72 px.
+     lg (19px) is the reading size: generous, for older eyes. Tracking tightens as size grows. */
+  --text-sm: 0.9375rem;   --text-sm--line-height: 1.5;
+  --text-base: 1.0625rem; --text-base--line-height: 1.5;
+  --text-lg: 1.1875rem;   --text-lg--line-height: 1.6;
+  --text-xl: 1.3125rem;   --text-xl--line-height: 1.45;
+  --text-2xl: 1.5rem;     --text-2xl--line-height: 1.3;   --text-2xl--letter-spacing: -0.005em;
+  --text-3xl: 1.875rem;   --text-3xl--line-height: 1.2;   --text-3xl--letter-spacing: -0.01em;
+  --text-4xl: 2.5rem;     --text-4xl--line-height: 1.08;  --text-4xl--letter-spacing: -0.018em;
+  --text-5xl: 3.375rem;   --text-5xl--line-height: 1.02;  --text-5xl--letter-spacing: -0.024em;
+  --text-6xl: 4.5rem;     --text-6xl--line-height: 0.98;  --text-6xl--letter-spacing: -0.03em;
 
-  /* Radii: pills for actions, 10px for cards and inputs, 28px for large cards. */
-  --radius-card: 10px;
-  --radius-card-lg: 28px;
+  /* Radii: small and sign-like. 6px for signs, buttons and image slots; 10px for the map itself. */
+  --radius-card: 6px;
+  --radius-card-lg: 10px;
 }
 
 /* The site opens in light mode regardless of the system setting. Dark is available by setting
-   data-theme="dark" on <html>: the same semantic roles re-pointed at other primitives. AA or better. */
+   data-theme="dark" on <html>: the same semantic roles re-pointed at other primitives. */
 :root { color-scheme: light; }
 @media all {
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --color-paper: var(--palette-forest-950);
-    --color-soft: var(--palette-forest-900);
-    --color-rule: var(--palette-forest-700);
-    --color-body: var(--palette-mist-200);
-    --color-muted: var(--palette-slate-300);
+    --color-paper: var(--palette-night-950);
+    --color-soft: var(--palette-night-900);
+    --color-rule: var(--palette-night-700);
+    --color-body: var(--palette-mist-50);
     --color-ink: var(--palette-mist-50);
-    --color-care: var(--palette-lime-400);
-    --color-trust: var(--palette-spruce-800);
-    --color-success: var(--palette-green-300);
-    --color-success-soft: var(--palette-green-900);
-    --color-warning: var(--palette-amber-300);
-    --color-warning-soft: var(--palette-amber-900);
-    --color-danger: var(--palette-red-300);
-    --color-danger-soft: var(--palette-red-900);
-    --color-info: var(--palette-blue-300);
-    --color-info-soft: var(--palette-blue-900);
+    --color-muted: var(--palette-slate-300);
+    --color-route: var(--palette-park-300);
+    --color-route-soft: var(--palette-park-900);
+    --color-stray: var(--palette-magenta-300);
+    --color-stray-soft: var(--palette-magenta-900);
+    --color-on-stray: var(--palette-night-950);
+    --color-contour: var(--palette-contour-800);
+    --color-trust: var(--palette-night-900);
+    --color-on-trust: var(--palette-mist-50);
   }
 }
 
-html { background: var(--color-paper); scroll-behavior: smooth; scroll-padding-top: 4rem; }
-body { font-size: var(--text-lg); line-height: 1.5; letter-spacing: -0.007em; background: var(--color-paper); color: var(--color-body); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+html { background: var(--color-paper); scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { font-size: var(--text-lg); line-height: 1.6; background: var(--color-paper); color: var(--color-body); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
-/* Headings and pull quotes use ink; paragraphs use body. In the base layer so utilities (text-lime) still win. */
 @layer base { h1, h2, h3, blockquote { color: var(--color-ink); } }
 
-:focus-visible { outline: 2px solid var(--color-care); outline-offset: 3px; }
+/* Ink, not magenta: magenta only ever means "strayed". Ink is 13:1 on paper. */
+:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 3px; }
 
-.h2 { font-family: var(--font-serif); font-size: clamp(var(--text-4xl), 4.2vw, var(--text-5xl)); font-weight: 900; line-height: 1; letter-spacing: -0.03em; color: var(--color-ink); text-wrap: balance; }
-.lede { font-family: var(--font-serif); font-size: clamp(var(--text-2xl), 2.4vw, var(--text-3xl)); font-weight: 500; line-height: 1.3; letter-spacing: -0.015em; color: var(--color-ink); }
+.h2 { font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl)); font-weight: 800; line-height: 1.04; letter-spacing: -0.024em; color: var(--color-ink); text-wrap: balance; }
+.lede { font-size: clamp(var(--text-2xl), 2.2vw, var(--text-3xl)); font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; color: var(--color-ink); }
+/* Wayfinding marks: map labels, step markers, times. */
+.sign { font-family: var(--font-sign); font-weight: 700; letter-spacing: 0.01em; }
 
+/* RoutineOrbit ambience. Everything here stops under prefers-reduced-motion. */
+.spark { background: currentColor; clip-path: polygon(50% 0, 100% 100%, 0 100%); opacity: 0.15; animation: twinkle 4s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 0.1; transform: scale(0.7) rotate(0deg); } 50% { opacity: 0.8; transform: scale(1.15) rotate(30deg); } }
+.ring-slow { animation: ring-spin 48s linear infinite; }
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+.bob { animation: bob 5.5s ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+/* The Pause button stops these too, not just the orbiting items. */
+.orbit-paused .spark, .orbit-paused .ring-slow, .orbit-paused .bob { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .spark, .ring-slow, .bob { animation: none; } .spark { opacity: 0.35; } }
 
-
-/* Pill slider: a filled track and a lime thumb. --p is the filled share, set inline. */
-.pill-range { -webkit-appearance: none; appearance: none; width: 100%; height: 14px; border-radius: 9999px; cursor: pointer;
-  background: linear-gradient(to right, var(--color-care) var(--p, 0%), var(--color-soft) var(--p, 0%));
-  border: 1px solid var(--color-rule); }
-.pill-range::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 9999px;
-  background: var(--color-lime); border: 2px solid var(--color-ink); }
-.pill-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: var(--color-lime); border: 2px solid var(--color-ink); }
+/* Walk slider: the walked share of the track in route green, an ink thumb. --p is the walked share, set inline. */
+.pill-range { -webkit-appearance: none; appearance: none; width: 100%; height: 10px; border-radius: 9999px; cursor: pointer;
+  background: linear-gradient(to right, var(--color-route) var(--p, 0%), var(--color-rule) var(--p, 0%)); }
+.pill-range::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 9999px;
+  background: var(--color-paper); border: 3px solid var(--color-ink); }
+.pill-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 9999px; background: var(--color-paper); border: 3px solid var(--color-ink); }
 .pill-range::-moz-range-track { background: transparent; }

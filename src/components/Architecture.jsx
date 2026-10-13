@@ -4,10 +4,11 @@ import { Section } from './ui.jsx'
 import { architecture } from '../content.js'
 
 const INK = 'var(--color-ink)'
-const TEAL = 'var(--color-care)'
+const ROUTE = 'var(--color-route)'
 const PAPER = 'var(--color-paper)'
 const SOFT = 'var(--color-soft)'
-const LIME = 'var(--color-lime)'
+const STRAY = 'var(--color-stray)'
+const STRAY_SOFT = 'var(--color-stray-soft)'
 const MUTED = 'var(--color-muted)'
 
 // Geometry for each node in a 360-wide viewBox (stacks vertically, scales down to 320px).
@@ -19,9 +20,9 @@ const GEO = {
   baseline: { x: 20, y: 362, w: 280, h: 60 },
   model: { x: 20, y: 450, w: 280, h: 60 },
   decision: { x: 20, y: 540, w: 280, h: 88 },
-  alert: { x: 20, y: 680, w: 150, h: 80 },
-  continue: { x: 190, y: 680, w: 150, h: 80 },
-  explain: { x: 20, y: 788, w: 150, h: 104 },
+  alert: { x: 20, y: 680, w: 150, h: 100 },
+  continue: { x: 190, y: 680, w: 140, h: 100 },
+  explain: { x: 20, y: 812, w: 200, h: 132 },
 }
 
 // [path, arrowhead x, arrowhead y, rotation]
@@ -34,12 +35,13 @@ const LINKS = [
   ['M160 510 V540', 160, 540, 0],
   ['M95 608 V680', 95, 680, 0],
   ['M225 608 V680', 225, 680, 0],
-  ['M95 760 V788', 95, 788, 0],
-  ['M340 720 H352 V128 H300', 300, 128, 90],
+  ['M95 780 V812', 95, 812, 0],
+  ['M330 730 H350 V128 H300', 300, 128, 90],
 ]
 
-const PACKET_PATH = 'M160 40 V584 L95 608 V834'
-const VB_H = 904
+// ends at the top edge of the last node, so the packet arrives instead of sitting on its label
+const PACKET_PATH = 'M160 40 V584 L95 608 V808'
+const VB_H = 968
 
 function Link({ d, hx, hy, rot, i }) {
   const reduce = useReducedMotion()
@@ -68,8 +70,8 @@ function Node({ node, i, active, setActive }) {
   const g = GEO[node.id]
   const isDecision = node.kind === 'decision'
   const isEnd = node.kind === 'end' || node.id === 'alert'
-  const stroke = active ? TEAL : isEnd ? TEAL : INK
-  const fill = node.id === 'explain' ? LIME : active ? SOFT : PAPER
+  const stroke = isEnd ? STRAY : active ? ROUTE : INK
+  const fill = node.id === 'explain' ? STRAY_SOFT : active ? SOFT : PAPER
   const delay = 0.08 + i * 0.16
   const vp = { once: true, margin: '0px 0px -10% 0px' }
   const outline = isDecision
@@ -87,8 +89,8 @@ function Node({ node, i, active, setActive }) {
       onMouseLeave={() => setActive(null)}
       onFocus={() => setActive(node.id)}
       onBlur={() => setActive(null)}
-      onClick={() => setActive(active ? null : node.id)}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(active ? null : node.id) } }}
+      onClick={() => setActive(node.id)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(node.id) } }}
     >
       {isDecision ? (
         <>
@@ -101,11 +103,11 @@ function Node({ node, i, active, setActive }) {
           <motion.rect x={g.x} y={g.y} width={g.w} height={g.h} fill="none" stroke={stroke} strokeWidth="1" initial={reduce ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={vp} transition={{ duration: 0.8, delay }} />
         </>
       )}
-      <rect className="focus-ring opacity-0" x={g.x - 3} y={g.y - 3} width={g.w + 6} height={g.h + 6} fill="none" stroke={TEAL} strokeWidth="2" pointerEvents="none" />
+      <rect className="focus-ring opacity-0" x={g.x - 3} y={g.y - 3} width={g.w + 6} height={g.h + 6} fill="none" stroke={INK} strokeWidth="3" pointerEvents="none" />
       {/* Labels are always visible; only the outlines draw in. */}
       <foreignObject x={g.x + (isDecision ? 60 : 0)} y={g.y} width={isDecision ? g.w - 120 : g.w} height={g.h}>
         <div className="flex h-full flex-col items-center justify-center px-2 text-center" style={{ pointerEvents: 'none' }}>
-          <span className="font-serif text-[17px] leading-tight text-ink">{node.title}</span>
+          <span className="text-[17px] font-bold leading-tight text-ink">{node.title}</span>
           {node.sub && <span className="mt-0.5 text-[14px] leading-snug" style={{ color: MUTED }}>{node.sub}</span>}
         </div>
       </foreignObject>
@@ -115,10 +117,10 @@ function Node({ node, i, active, setActive }) {
 
 function Tip({ node, className = '' }) {
   return (
-    <div className={`border border-rule bg-paper p-4 text-sm ${className}`} aria-live="polite">
+    <div className={`min-h-[7.5rem] rounded-card border border-rule bg-paper p-4 text-base ${className}`} aria-live="polite">
       {node ? (
         <>
-          <p className="font-serif text-lg">{node.title}</p>
+          <p className="text-lg font-bold">{node.title}</p>
           <p className="mt-1 leading-relaxed text-muted">{node.tip}</p>
         </>
       ) : (
@@ -148,14 +150,15 @@ export default function Architecture() {
 
   return (
     <Section id="architecture" heading={architecture.heading}>
-      <p className="-mt-4 mb-10 max-w-2xl font-serif text-2xl leading-snug lg:hidden">{architecture.short}</p>
+      <p className="-mt-4 mb-10 max-w-2xl text-2xl leading-snug lg:hidden">{architecture.short}</p>
       <div className="grid gap-10 lg:grid-cols-[1fr_440px] lg:gap-16">
         <div className="hidden lg:block">
           <div className="sticky top-28 space-y-4">
-            <p className="max-w-sm font-serif text-xl leading-snug">{architecture.short}</p>
+            <p className="max-w-sm text-xl font-bold leading-snug">{architecture.short}</p>
             <p className="max-w-sm leading-relaxed text-muted">
-              Sensor data flows down the pipeline as the page scrolls. After a calibration period the system compares every new
-              window of movement against a personal baseline, and either keeps monitoring or raises an explainable alert.
+              Sensor data flows down the pipeline as the page scrolls. In the design, after a calibration period the system
+              compares every new window of movement against a personal baseline, and either keeps monitoring or raises an
+              explainable alert.
             </p>
             <Tip node={activeNode} className="max-w-sm" />
           </div>
@@ -168,13 +171,13 @@ export default function Architecture() {
           <svg viewBox={`0 0 360 ${VB_H}`} className="w-full" role="group" aria-label="System architecture pipeline diagram">
             <path ref={measure} d={PACKET_PATH} fill="none" stroke="none" />
             {LINKS.map(([d, hx, hy, rot], i) => <Link key={d} d={d} hx={hx} hy={hy} rot={rot} i={i} />)}
-            <text x="103" y="650" fontSize="13" letterSpacing="1.4" fill={TEAL} fontWeight="600">YES</text>
-            <text x="233" y="650" fontSize="13" letterSpacing="1.4" fill={MUTED} fontWeight="600">NO</text>
+            <text x="103" y="650" fontSize="13" letterSpacing="1.4" fill={STRAY} fontWeight="800" fontFamily="var(--font-sign)">Yes</text>
+            <text x="233" y="650" fontSize="13" letterSpacing="1.4" fill={MUTED} fontWeight="800" fontFamily="var(--font-sign)">No</text>
             {architecture.nodes.map((n, i) => <Node key={n.id} node={n} i={i} active={active === n.id} setActive={setActive} />)}
             {!reduce && (
               <g pointerEvents="none">
-                <circle ref={halo} cx="160" cy="40" r="12" fill={LIME} opacity="0.5" />
-                <circle ref={packet} cx="160" cy="40" r="6" fill={LIME} stroke={INK} strokeWidth="1.5" />
+                <circle ref={halo} cx="160" cy="40" r="12" fill={ROUTE} opacity="0.25" />
+                <circle ref={packet} cx="160" cy="40" r="6" fill={ROUTE} stroke={PAPER} strokeWidth="2" />
               </g>
             )}
           </svg>
