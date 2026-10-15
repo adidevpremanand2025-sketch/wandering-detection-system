@@ -1,252 +1,238 @@
 {
-  "palette": {
-    "white": {
-      "$value": "#FFFFFF",
-      "$type": "color",
-      "$description": "Page canvas"
-    },
-    "fog-100": {
-      "$value": "#E8EBE6",
-      "$type": "color",
-      "$description": "Hairlines, card borders"
-    },
-    "linen-100": {
-      "$value": "#E2F6D5",
-      "$type": "color",
-      "$description": "Soft green band"
-    },
-    "slate-600": {
-      "$value": "#6A6C6A",
-      "$type": "color",
-      "$description": "Muted text (5.3:1 on white)"
-    },
-    "charcoal-700": {
-      "$value": "#454745",
-      "$type": "color",
-      "$description": "Paragraph text"
-    },
-    "forest-900": {
-      "$value": "#163300",
-      "$type": "color",
-      "$description": "Forest Ink: headings, dark band"
-    },
-    "spruce-800": {
-      "$value": "#054D28",
-      "$type": "color",
-      "$description": "Spruce: accent, cardigan"
-    },
-    "lime-400": {
-      "$value": "#9FE870",
-      "$type": "color",
-      "$description": "Lime Voltage: the action color"
-    },
-    "blue-800": {
-      "$value": "#0B4C72",
-      "$type": "color",
-      "$description": "Signal Blue: info"
-    }
-  },
-  "color": {
-    "paper": {
-      "$value": "{palette.white}",
-      "$type": "color",
-      "$description": "Page"
-    },
-    "soft": {
-      "$value": "{palette.linen-100}",
-      "$type": "color",
-      "$description": "Light green band, hover, slider track"
-    },
-    "rule": {
-      "$value": "{palette.fog-100}",
-      "$type": "color",
-      "$description": "Hairlines"
-    },
-    "body": {
-      "$value": "{palette.charcoal-700}",
-      "$type": "color",
-      "$description": "Paragraph text"
-    },
-    "muted": {
-      "$value": "{palette.slate-600}",
-      "$type": "color",
-      "$description": "Secondary text"
-    },
-    "ink": {
-      "$value": "{palette.forest-900}",
-      "$type": "color",
-      "$description": "Headings and outlines"
-    },
-    "care": {
-      "$value": "{palette.spruce-800}",
-      "$type": "color",
-      "$description": "Accent for text and strokes"
-    },
-    "lime": {
-      "$value": "{palette.lime-400}",
-      "$type": "color",
-      "$description": "CTA fills, active states; never text on light"
-    },
-    "on-lime": {
-      "$value": "{palette.forest-900}",
-      "$type": "color",
-      "$description": "Text on lime (9.5:1)"
-    },
-    "trust": {
-      "$value": "{palette.forest-900}",
-      "$type": "color",
-      "$description": "Dark band"
-    },
-    "on-trust": {
-      "$value": "{palette.white}",
-      "$type": "color",
-      "$description": "Text on the band"
-    }
-  },
-  "font": {
-    "inter": {
-      "$value": "Inter",
-      "$type": "fontFamily",
-      "$description": "Body, UI and display (Inter Black stands in for Wise Sans)"
-    }
-  },
-  "typography": {
-    "sm": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "14px",
-        "fontWeight": 400,
-        "lineHeight": 1.55,
-        "letterSpacing": "-0.005em"
-      },
-      "$type": "typography",
-      "$description": "Small labels"
-    },
-    "base": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "16px",
-        "fontWeight": 400,
-        "lineHeight": 1.5,
-        "letterSpacing": "-0.006em"
-      },
-      "$type": "typography",
-      "$description": "Captions"
-    },
-    "lg": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "18px",
-        "fontWeight": 400,
-        "lineHeight": 1.5,
-        "letterSpacing": "-0.007em"
-      },
-      "$type": "typography",
-      "$description": "Body"
-    },
-    "xl": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "20px",
-        "fontWeight": 400,
-        "lineHeight": 1.4,
-        "letterSpacing": "-0.006em"
-      },
-      "$type": "typography",
-      "$description": "Tagline"
-    },
-    "2xl": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "25px",
-        "fontWeight": 600,
-        "lineHeight": 1.3,
-        "letterSpacing": "-0.009em"
-      },
-      "$type": "typography",
-      "$description": "Row titles, lede minimum"
-    },
-    "3xl": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "36px",
-        "fontWeight": 500,
-        "lineHeight": 1.25,
-        "letterSpacing": "-0.011em"
-      },
-      "$type": "typography",
-      "$description": "Lede maximum"
-    },
-    "4xl": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "45px",
-        "fontWeight": 900,
-        "lineHeight": 1.1,
-        "letterSpacing": "-0.011em"
-      },
-      "$type": "typography",
-      "$description": "Section heading minimum, hero on mobile"
-    },
-    "5xl": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "61px",
-        "fontWeight": 900,
-        "lineHeight": 1.1,
-        "letterSpacing": "-0.015em"
-      },
-      "$type": "typography",
-      "$description": "Section heading maximum, hero, interludes"
-    },
-    "6xl": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "89px",
-        "fontWeight": 900,
-        "lineHeight": 0.85,
-        "letterSpacing": "-0.03em"
-      },
-      "$type": "typography",
-      "$description": "Emphasised section heading"
-    },
-    "7xl": {
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "105px",
-        "fontWeight": 900,
-        "lineHeight": 0.85,
-        "letterSpacing": "-0.03em"
-      },
-      "$type": "typography",
-      "$description": "Display (unused so far)"
-    }
-  },
-  "radius": {
-    "card": {
-      "$value": "10px",
-      "$type": "dimension",
-      "$description": "Cards, image slots, inputs"
-    },
-    "card-lg": {
-      "$value": "28px",
-      "$type": "dimension",
-      "$description": "Large cards and quote bands"
-    },
-    "pill": {
-      "$value": "9999px",
-      "$type": "dimension",
-      "$description": "Buttons, nav segments, tags, slider"
-    }
-  },
-  "spacing": {
-    "unit": {
-      "$value": "4px",
-      "$type": "dimension",
-      "$description": "Base unit; Tailwind multiples are used"
-    }
-  },
-  "$extensions": {
-    "source": "Wise style reference (refero extraction), adapted; dark mode lives in src/index.css"
-  }
+    "palette":  {
+                    "paper-50":  {
+                                     "$value":  "#F3F5F2",
+                                     "$type":  "color",
+                                     "$description":  "Map paper"
+                                 },
+                    "sage-100":  {
+                                     "$value":  "#E4EBE3",
+                                     "$type":  "color",
+                                     "$description":  "Tinted band"
+                                 },
+                    "sage-200":  {
+                                     "$value":  "#D3DCD2",
+                                     "$type":  "color",
+                                     "$description":  "Hairlines"
+                                 },
+                    "park-100":  {
+                                     "$value":  "#CFE3D4",
+                                     "$type":  "color",
+                                     "$description":  "Usual-route park"
+                                 },
+                    "park-700":  {
+                                     "$value":  "#2F6E4E",
+                                     "$type":  "color",
+                                     "$description":  "Park green, the usual route"
+                                 },
+                    "ink-900":  {
+                                    "$value":  "#1B2B3A",
+                                    "$type":  "color",
+                                    "$description":  "Night ink"
+                                },
+                    "slate-600":  {
+                                      "$value":  "#4F5D69",
+                                      "$type":  "color",
+                                      "$description":  "Muted text"
+                                  },
+                    "magenta-100":  {
+                                        "$value":  "#F9E1EA",
+                                        "$type":  "color",
+                                        "$description":  "Stray tint"
+                                    },
+                    "magenta-700":  {
+                                        "$value":  "#C2185B",
+                                        "$type":  "color",
+                                        "$description":  "Footpath magenta, the stray"
+                                    },
+                    "contour-300":  {
+                                        "$value":  "#D7CDB5",
+                                        "$type":  "color",
+                                        "$description":  "Contour lines, decoration only"
+                                    },
+                    "white":  {
+                                  "$value":  "#FFFFFF",
+                                  "$type":  "color",
+                                  "$description":  "Text on magenta"
+                              }
+                },
+    "color":  {
+                  "paper":  {
+                                "$value":  "{palette.paper-50}",
+                                "$type":  "color",
+                                "$description":  "Page"
+                            },
+                  "soft":  {
+                               "$value":  "{palette.sage-100}",
+                               "$type":  "color",
+                               "$description":  "Tinted band, hover, image slot"
+                           },
+                  "rule":  {
+                               "$value":  "{palette.sage-200}",
+                               "$type":  "color",
+                               "$description":  "Hairlines, the trail ahead"
+                           },
+                  "body":  {
+                               "$value":  "{palette.ink-900}",
+                               "$type":  "color",
+                               "$description":  "Paragraph text (13.2:1)"
+                           },
+                  "ink":  {
+                              "$value":  "{palette.ink-900}",
+                              "$type":  "color",
+                              "$description":  "Headings"
+                          },
+                  "muted":  {
+                                "$value":  "{palette.slate-600}",
+                                "$type":  "color",
+                                "$description":  "Secondary text (6.2:1)"
+                            },
+                  "route":  {
+                                "$value":  "{palette.park-700}",
+                                "$type":  "color",
+                                "$description":  "The usual route, calm states (5.5:1)"
+                            },
+                  "route-soft":  {
+                                     "$value":  "{palette.park-100}",
+                                     "$type":  "color",
+                                     "$description":  "Park inside the usual route"
+                                 },
+                  "stray":  {
+                                "$value":  "{palette.magenta-700}",
+                                "$type":  "color",
+                                "$description":  "Only strays, alerts, the emergency line and the primary action (5.4:1)"
+                            },
+                  "stray-soft":  {
+                                     "$value":  "{palette.magenta-100}",
+                                     "$type":  "color",
+                                     "$description":  "Explainable-alert node"
+                                 },
+                  "on-stray":  {
+                                   "$value":  "{palette.white}",
+                                   "$type":  "color",
+                                   "$description":  "Text on stray (5.9:1)"
+                               },
+                  "contour":  {
+                                  "$value":  "{palette.contour-300}",
+                                  "$type":  "color",
+                                  "$description":  "Contour lines; never text"
+                              },
+                  "trust":  {
+                                "$value":  "{palette.ink-900}",
+                                "$type":  "color",
+                                "$description":  "Dark band"
+                            },
+                  "on-trust":  {
+                                   "$value":  "{palette.paper-50}",
+                                   "$type":  "color",
+                                   "$description":  "Text on the dark band"
+                               }
+              },
+    "font":  {
+                 "atkinson":  {
+                                  "$value":  "Atkinson Hyperlegible Next",
+                                  "$type":  "fontFamily",
+                                  "$description":  "Reading text and headlines (400, 700, 800)"
+                              },
+                 "overpass":  {
+                                  "$value":  "Overpass",
+                                  "$type":  "fontFamily",
+                                  "$description":  "Wayfinding marks only: map labels, clock, step markers (700, 800)"
+                              }
+             },
+    "typography":  {
+                       "sm":  {
+                                  "$value":  {
+                                                 "fontSize":  "15px",
+                                                 "lineHeight":  1.5
+                                             },
+                                  "$type":  "typography"
+                              },
+                       "base":  {
+                                    "$value":  {
+                                                   "fontSize":  "17px",
+                                                   "lineHeight":  1.5
+                                               },
+                                    "$type":  "typography"
+                                },
+                       "lg":  {
+                                  "$value":  {
+                                                 "fontSize":  "19px",
+                                                 "lineHeight":  1.6
+                                             },
+                                  "$type":  "typography"
+                              },
+                       "xl":  {
+                                  "$value":  {
+                                                 "fontSize":  "21px",
+                                                 "lineHeight":  1.45
+                                             },
+                                  "$type":  "typography"
+                              },
+                       "2xl":  {
+                                   "$value":  {
+                                                  "fontSize":  "24px",
+                                                  "lineHeight":  1.3
+                                              },
+                                   "$type":  "typography"
+                               },
+                       "3xl":  {
+                                   "$value":  {
+                                                  "fontSize":  "30px",
+                                                  "lineHeight":  1.2
+                                              },
+                                   "$type":  "typography"
+                               },
+                       "4xl":  {
+                                   "$value":  {
+                                                  "fontSize":  "40px",
+                                                  "lineHeight":  1.08
+                                              },
+                                   "$type":  "typography"
+                               },
+                       "5xl":  {
+                                   "$value":  {
+                                                  "fontSize":  "54px",
+                                                  "lineHeight":  1.02
+                                              },
+                                   "$type":  "typography"
+                               },
+                       "6xl":  {
+                                   "$value":  {
+                                                  "fontSize":  "72px",
+                                                  "lineHeight":  0.98
+                                              },
+                                   "$type":  "typography"
+                               }
+                   },
+    "radius":  {
+                   "card":  {
+                                "$value":  "6px",
+                                "$type":  "dimension",
+                                "$description":  "Buttons, image slots"
+                            },
+                   "card-lg":  {
+                                   "$value":  "10px",
+                                   "$type":  "dimension",
+                                   "$description":  "The map"
+                               },
+                   "pill":  {
+                                "$value":  "9999px",
+                                "$type":  "dimension",
+                                "$description":  "Dots and the slider only"
+                            }
+               },
+    "spacing":  {
+                    "unit":  {
+                                 "$value":  "4px",
+                                 "$type":  "dimension",
+                                 "$description":  "Base unit; Tailwind multiples are used"
+                             }
+                },
+    "$extensions":  {
+                        "source":  {
+                                       "version":  "3.5.0",
+                                       "file":  "src/index.css"
+                                   }
+                    }
 }

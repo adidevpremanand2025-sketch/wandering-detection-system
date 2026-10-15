@@ -1,6 +1,6 @@
 /**
  * Grandpa: the project's mascot, the team's own reference illustration cut out as a circle
- * (public/images/grandpa.png). It already includes the lime disc and its outline, so place it
+ * (public/images/grandpa.png). It already includes the soft green disc and its outline, so place it
  * directly; do not wrap it in another disc.
  *
  * Replace the file with a higher-resolution export of the same illustration at any time.

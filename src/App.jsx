@@ -1,15 +1,14 @@
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
-import WalkDemo from './components/WalkDemo.jsx'
-import { Section } from './components/ui.jsx'
+import Trail from './components/Trail.jsx'
 import Involve from './components/Involve.jsx'
 import Numbers from './components/Numbers.jsx'
 import About from './components/About.jsx'
 import Architecture from './components/Architecture.jsx'
 import Interlude from './components/Interlude.jsx'
-import { Problem, Story, Literature, Challenges, Objectives, Methodology, Hardware, Roadmap, Team } from './components/Sections.jsx'
-
-import { walk } from './content.js'
+import RoutineOrbit from './components/RoutineOrbit.jsx'
+import Learns from './components/Learns.jsx'
+import { Problem, Story, Literature, Hardware, Roadmap, Team, Footer } from './components/Sections.jsx'
 
 export default function App() {
   return (
@@ -18,25 +17,23 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <Section id="walk" heading={walk.heading} tone="soft">
-          <div className="mx-auto max-w-3xl"><WalkDemo /></div>
-        </Section>
-        <Problem />
-        <Story />
-        <Numbers />
-        <Literature />
-        <Challenges />
-        <Objectives />
-        <Interlude tone="soft">Everyone moves differently. Ours learns each person&rsquo;s own routine.</Interlude>
-        <Architecture />
-        <Methodology />
-        <Hardware />
-        <Roadmap />
-        <Interlude>So a walk never has to end in worry.</Interlude>
-        <Involve />
-        <About />
-        <Team />
+        <Trail strayAt="stray" homeAt="involve">
+          <Problem />
+          <Numbers />
+          <Literature />
+          <Interlude id="stray" vignette="signpost">Everyone moves differently. Ours learns each person&rsquo;s own routine.</Interlude>
+          <Learns />
+          <Architecture />
+          <Hardware />
+          <Roadmap />
+          <Story />
+          <Team />
+          <About />
+          <Interlude id="closing" tone="soft" visual={<RoutineOrbit />}>A walk that strays should be noticed early.</Interlude>
+          <Involve />
+        </Trail>
       </main>
+      <Footer />
     </>
   )
 }
