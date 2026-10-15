@@ -1,5 +1,6 @@
 import { Section } from './ui.jsx'
 import { numbers } from '../content.js'
+import CartoonGlobe from './CartoonGlobe.jsx'
 
 function SourceLink({ source, url }) {
   return (
@@ -33,7 +34,7 @@ export default function Numbers() {
   // one link per distinct source, not one under every sentence
   const sources = [...new Map(stats.concat(lead).map((s) => [s.url, s])).values()]
   return (
-    <Section id="numbers" heading={numbers.heading} tone="soft" vignette="radius">
+    <Section id="numbers" heading={numbers.heading} tone="soft" aside={<CartoonGlobe />}>
       <figure className="max-w-4xl xl:max-w-[40rem]">
         <SixInTen />
         <p className="text-3xl font-bold leading-tight tracking-[-0.015em] md:text-4xl md:leading-[1.12]">{lead.text}</p>

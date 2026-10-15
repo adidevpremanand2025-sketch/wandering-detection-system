@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { involve } from '../content.js'
 import Button from './Button.jsx'
-import Grandpa from './Grandpa.jsx'
+import AstralShell from './AstralShell.jsx'
 import { TRAIL_INSET } from './ui.jsx'
 
 function CopyEmail() {
@@ -52,8 +52,8 @@ export default function Involve() {
             <p className="mt-1 max-w-md">{involve.note}</p>
           </div>
         </div>
-        <div className="hidden justify-self-center lg:col-span-4 lg:block">
-          <Grandpa className="aspect-square w-56 rounded-full ring-4 ring-on-trust" title="A cartoon grandfather with glasses and a big smile, waving" />
+        <div className="hidden w-full justify-self-center lg:col-span-4 lg:block">
+          <AstralShell className="mx-auto w-[22rem]" />
         </div>
       </div>
     </section>

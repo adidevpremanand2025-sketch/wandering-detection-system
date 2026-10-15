@@ -12,7 +12,7 @@ export const TrailContext = createContext(false)
  * On wide screens each section is a stop on the Trail: the content sits right of the trail gutter,
  * and a small marker on the trail lines up with the heading.
  */
-export function Section({ id, heading, children, className = '', tone = 'plain', emphasis = false, vignette }) {
+export function Section({ id, heading, children, className = '', tone = 'plain', emphasis = false, vignette, aside }) {
   const text = Array.isArray(heading) ? heading.join('') : heading
   return (
     <section
@@ -24,9 +24,11 @@ export function Section({ id, heading, children, className = '', tone = 'plain',
         <StopMarker />
         {/* a small map scene in the right margin, beside the heading (extra-wide screens only) */}
         {vignette && <MapVignette kind={vignette} className="right-8 top-24" />}
+        {/* or a larger interactive piece in the same margin (extra-wide screens only) */}
+        {aside && <div className="absolute right-8 top-12 z-10 hidden w-[18rem] xl:block">{aside}</div>}
         <h2
           id={`${id}-h`}
-          className={`h2 ${emphasis ? 'max-w-4xl md:!text-6xl' : 'max-w-3xl'} ${vignette ? 'xl:max-w-[40rem]' : ''}`}
+          className={`h2 ${emphasis ? 'max-w-4xl md:!text-6xl' : 'max-w-3xl'} ${vignette || aside ? 'xl:max-w-[40rem]' : ''}`}
         >
           {text}
         </h2>
